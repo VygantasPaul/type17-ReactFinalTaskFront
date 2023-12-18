@@ -29,7 +29,7 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
 
   return (
     <div className="container">
-      <section className="bg-white dark:bg-gray-900 py-8 lg:py-16 ">
+      <section className="bg-white  py-8 lg:py-16 ">
         <div className="max-w-2xl mx-auto px-4">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
@@ -37,13 +37,13 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
             </h2>
           </div>
           <form className="mb-6">
-            <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+            <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200  ">
               <label htmlFor="comment" className="sr-only">
                 Your comment
               </label>
               <textarea
                 id="comment"
-                className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none  "
                 placeholder="Write a comment..."
                 required
               ></textarea>
@@ -59,10 +59,10 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
           {comments &&
             comments.map((comment) => (
               <div key={comment.id}>
-                <article className="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
+                <article className="p-6 text-base bg-white rounded-lg ">
                   <footer className="flex justify-between items-center mb-2 relative">
                     <div className="flex items-center">
-                      <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+                      <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
                         <img
                           className="mr-2 w-6 h-6 rounded-full"
                           src="https://flowbite.com/docs/images/people/profile-picture-2.jpg"
@@ -86,7 +86,7 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
                     <button
                       onClick={() => toggleDropdownQuestion(comment.id)}
                       id="dropdownComment1Button"
-                      className=" inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                      className=" inline-flex items-center p-2 text-sm font-medium text-center text-gray-500  bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 "
                       type="button"
                     >
                       <svg
@@ -101,15 +101,15 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
                       <span className="sr-only">Comment settings</span>
                     </button>
                     {dropdownforQuestion[comment.id] && (
-                      <div className=" z-10 w-36 absolute right-0 top-10 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
+                      <div className=" z-10 w-36 absolute right-0 top-10 bg-white rounded divide-y divide-gray-100 shadow ">
                         <ul
-                          className="py-1 text-sm text-gray-700 dark:text-gray-200"
+                          className="py-1 text-sm text-gray-700 "
                           aria-labelledby="dropdownMenuIconHorizontalButton"
                         >
                           <li>
                             <a
                               href="#"
-                              className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                              className="block py-2 px-4 hover:bg-gray-100 "
                             >
                               Edit
                             </a>
@@ -117,7 +117,7 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
                           <li>
                             <a
                               href="#"
-                              className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                              className="block py-2 px-4 hover:bg-gray-100 "
                             >
                               Remove
                             </a>
@@ -125,7 +125,7 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
                           <li>
                             <a
                               href="#"
-                              className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                              className="block py-2 px-4 hover:bg-gray-100 "
                             >
                               Report
                             </a>
@@ -134,9 +134,7 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
                       </div>
                     )}
                   </footer>
-                  <p className="text-gray-500 dark:text-gray-400">
-                    {comment.question_text}
-                  </p>
+                  <p className="text-gray-500 ">{comment.question_text}</p>
                   <div className="flex items-center mt-4 space-x-4">
                     <button
                       type="button"
@@ -166,10 +164,10 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
                 {comment.answers_data &&
                   comment.answers_data.map((answer) => (
                     <div key={answer.id}>
-                      <article className="p-6 mb-3 ml-6 lg:ml-12 text-base bg-white rounded-lg dark:bg-gray-900">
+                      <article className="p-6 mb-3 ml-6 lg:ml-12 text-base bg-white rounded-lg ">
                         <footer className="flex justify-between items-center mb-2 relative">
                           <div className="flex items-center">
-                            <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white font-semibold">
+                            <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
                               <img
                                 className="mr-2 w-6 h-6 rounded-full"
                                 src="https://flowbite.com/docs/images/people/profile-picture-5.jpg"
@@ -195,7 +193,7 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
                           </div>
                           <button
                             onClick={() => toggleDropdownAnswer(answer.id)}
-                            className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500 dark:text-gray-40 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
+                            className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500  bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 0"
                             type="button"
                           >
                             <svg
@@ -210,12 +208,12 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
                             <span className="sr-only">Comment settings</span>
                           </button>
                           {dropdownforAnswers[answer.id] && (
-                            <div className="absolute right-0 top-10 z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600">
-                              <ul className="py-1 text-sm text-gray-700 dark:text-gray-200">
+                            <div className="absolute right-0 top-10 z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow  ">
+                              <ul className="py-1 text-sm text-gray-700 ">
                                 <li>
                                   <a
                                     href="#"
-                                    className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    className="block py-2 px-4 hover:bg-gray-100  "
                                   >
                                     Edit
                                   </a>
@@ -223,7 +221,7 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
                                 <li>
                                   <a
                                     href="#"
-                                    className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    className="block py-2 px-4 hover:bg-gray-100  "
                                   >
                                     Remove
                                   </a>
@@ -231,7 +229,7 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
                                 <li>
                                   <a
                                     href="#"
-                                    className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
+                                    className="block py-2 px-4 hover:bg-gray-100 "
                                   >
                                     Report
                                   </a>
@@ -240,9 +238,7 @@ const Comments: React.FC<CommentType> = ({ comments }) => {
                             </div>
                           )}
                         </footer>
-                        <p className="text-gray-500 dark:text-gray-400">
-                          {answer.answer_text}
-                        </p>
+                        <p className="text-gray-500 ">{answer.answer_text}</p>
                         <div className="flex items-center mt-4 space-x-4">
                           <button
                             type="button"
