@@ -8,6 +8,8 @@ import { useRouter } from "next/router";
 import cookie from "js-cookie";
 import axios from "axios";
 import CommentHeader from "../CommentsHeader/CommentsHeader";
+import AnsweredComments from "./AnsweredComments/AnsweredComments";
+import UnAnsweredComments from "./UnAnsweredComments/UnAnsweredComments";
 
 type CommentsType = {
   comments: Array<any> | null; ///tikisi nullo arba masyvo
@@ -15,10 +17,27 @@ type CommentsType = {
 const Comments: React.FC<CommentsType> = ({ comments }) => {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
+
   const [alert, setAlert] = useState<string>("");
   const [questionField, setQuestionField] = useState<string>("");
   const [isLoggedIn, setLoggedIn] = useState(false);
 
+  const [isShowAll, setShowAll] = useState(true);
+  const [isShowAnswered, setShowAnswered] = useState(false);
+  const [isShowUnanswered, setUnanswered] = useState(false);
+
+  const allToShow = () => {
+    setShowAll(true);
+  };
+  const answeredToShow = () => {
+    setShowAnswered(true);
+    setShowAll(false);
+  };
+  const unansweredToShow = () => {
+    setUnanswered(true);
+    setShowAnswered(false);
+    setShowAll(false);
+  };
   const checkValidation = () => {
     if (!questionField) {
       setAlert("Please fill comment field");
@@ -55,7 +74,6 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
         setLoading(false);
         if (response.status === 200) {
           router.reload();
-          // setComments((prevState: []) => [...(prevState || []), response.data]);
           setQuestionField("");
         }
       }
@@ -96,24 +114,24 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
                 <li className="me-2">
                   <a
                     onClick={allToShow}
-                    className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                    className="inline-block p-4 border-b-2 text-blue-600 border-blue-600 rounded-t-lg active hover:text-gray-600 hover:border-gray-300 cursor-pointer"
+                    aria-current="page"
                   >
                     All
                   </a>
                 </li>
                 <li className="me-2">
                   <a
-                    href="#"
-                    className="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
-                    aria-current="page"
+                    onClick={answeredToShow}
+                    className="inline-block p-4  border-b-2 border-transparent rounded-t-lg  hover:border-gray-300 cursor-pointer"
                   >
                     Answered
                   </a>
                 </li>
                 <li className="me-2">
                   <a
-                    href="#"
-                    className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                    onClick={unansweredToShow}
+                    className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 cursor-pointer"
                   >
                     Unanswered
                   </a>
@@ -121,18 +139,23 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
               </ul>
             </div>
           </>
-          {comments &&
-            comments
-              .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
-              .map((comment) => (
-                <div className="comments_wrap" key={comment.id}>
-                  <Comment key={comment.id} comment={comment} />
-                  {comment.answers_data &&
-                    comment.answers_data.map((answer: any) => (
-                      <Answer answer={answer} key={answer.id} />
-                    ))}
-                </div>
-              ))}
+          {isShowAll && (
+            <div className="comments_wrap">
+              {comments
+                .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
+                .map((question) => (
+                  <div key={question.id}>
+                    <Comment comment={question} />
+                    {question.answers_data &&
+                      question.answers_data.map((answer: any) => (
+                        <Answer answer={answer} key={answer.id} />
+                      ))}
+                  </div>
+                ))}
+            </div>
+          )}
+          {isShowAnswered && <AnsweredComments comments={comments} />}
+          {isShowUnanswered && <UnAnsweredComments comments={comments} />}
         </div>
       </section>
     </div>

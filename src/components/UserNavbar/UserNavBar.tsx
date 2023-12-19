@@ -17,10 +17,6 @@ const UserNavBar = () => {
       if (userData && userData.user) {
         setUserName(userData.user);
       }
-    } else {
-      // Cookie has expired or doesn't exist, clear user data from localStorage
-      localStorage.removeItem("userData");
-      setLoggedIn(false);
     }
   }, []);
 
