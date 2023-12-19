@@ -7,11 +7,12 @@ import Answer from "../Answer/Answer";
 import { useRouter } from "next/router";
 import cookie from "js-cookie";
 import axios from "axios";
+import CommentHeader from "../CommentsHeader/CommentsHeader";
 
 type CommentsType = {
   comments: Array<any> | null; ///tikisi nullo arba masyvo
 };
-const Comments: React.FC<CommentsType> = ({ comments, setComments }) => {
+const Comments: React.FC<CommentsType> = ({ comments }) => {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
   const [alert, setAlert] = useState<string>("");
@@ -53,6 +54,8 @@ const Comments: React.FC<CommentsType> = ({ comments, setComments }) => {
         );
         setLoading(false);
         if (response.status === 200) {
+          router.reload();
+          // setComments((prevState: []) => [...(prevState || []), response.data]);
           setQuestionField("");
         }
       }
@@ -69,11 +72,7 @@ const Comments: React.FC<CommentsType> = ({ comments, setComments }) => {
     <div className="lg:container ">
       <section className="bg-white py-8 lg:py-16 ">
         <div className="max-w-4xl mx-auto px-4">
-          <div className="flex justify-between items-center mb-6">
-            <h2 className="text-lg lg:text-2xl font-bold text-gray-900 ">
-              Questions: ({comments?.length})
-            </h2>
-          </div>
+          <CommentHeader comments={comments} />
           {isLoggedIn && (
             <form className="mb-6">
               <Textarea value={questionField} setValue={setQuestionField} />
@@ -84,21 +83,53 @@ const Comments: React.FC<CommentsType> = ({ comments, setComments }) => {
                 text="Post comment"
                 onClick={onAddComment}
               />
-              {alert && <div className="text-red-500">{alert}</div>}
+              {alert && (
+                <div className="text-red-500 mt-2 p-2 border-2 border-red-300">
+                  {alert}
+                </div>
+              )}
             </form>
           )}
-
+          <>
+            <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+              <ul className="flex flex-wrap -mb-px">
+                <li className="me-2">
+                  <a
+                    onClick={allToShow}
+                    className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                  >
+                    All
+                  </a>
+                </li>
+                <li className="me-2">
+                  <a
+                    href="#"
+                    className="inline-block p-4 text-blue-600 border-b-2 border-blue-600 rounded-t-lg active dark:text-blue-500 dark:border-blue-500"
+                    aria-current="page"
+                  >
+                    Answered
+                  </a>
+                </li>
+                <li className="me-2">
+                  <a
+                    href="#"
+                    className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 dark:hover:text-gray-300"
+                  >
+                    Unanswered
+                  </a>
+                </li>
+              </ul>
+            </div>
+          </>
           {comments &&
             comments
               .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
               .map((comment) => (
                 <div className="comments_wrap" key={comment.id}>
-                  <Comment comment={comment} />
+                  <Comment key={comment.id} comment={comment} />
                   {comment.answers_data &&
                     comment.answers_data.map((answer: any) => (
-                      <div key={answer.id}>
-                        <Answer answer={answer} />
-                      </div>
+                      <Answer answer={answer} key={answer.id} />
                     ))}
                 </div>
               ))}

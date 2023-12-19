@@ -4,22 +4,24 @@ import cookie from "js-cookie";
 import axios from "axios";
 import Textarea from "../Textarea/Textarea";
 import Button from "../Button/Button";
+import { useRouter } from "next/router";
 type CommentComponent = {
   createdAt: string;
+  gained_likes_number: string;
   question_text: string;
   id: string;
 };
 type CommentType = {
   comment: Array<CommentComponent>;
 };
-const Comment: React.FC<CommentType> = ({ comment, setComments }) => {
+const Comment: React.FC<CommentType> = ({ comment }) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [answerField, setAnswerField] = useState<string>("");
   const [alert, setAlert] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
   const [isAnswerReply, setAnswerReply] = useState(false);
   const [isShowDelete, setiShowDelete] = useState(false);
-
+  const router = useRouter();
   const onDeleteShow = () => {
     setiShowDelete(!isShowDelete);
   };
@@ -49,8 +51,10 @@ const Comment: React.FC<CommentType> = ({ comment, setComments }) => {
 
       if (response.status === 200) {
         window.alert("Success");
+        router.reload();
       }
     } catch (err) {
+      // @ts-ignore
       if (err.response.status === 401) {
         setAlert("Bad Authentification");
         return false;
@@ -85,6 +89,7 @@ const Comment: React.FC<CommentType> = ({ comment, setComments }) => {
         );
         setLoading(false);
         if (response.status === 200) {
+          router.reload();
           setAnswerField("");
         }
       }
@@ -109,6 +114,7 @@ const Comment: React.FC<CommentType> = ({ comment, setComments }) => {
             ></img>
             Michael Gough
           </p>
+
           <p className="text-sm text-gray-600 dark:text-gray-400">
             <time title="February 8th, 2022">
               {new Date(comment.createdAt).toLocaleString("en-US", {
@@ -150,7 +156,7 @@ const Comment: React.FC<CommentType> = ({ comment, setComments }) => {
               <li>
                 <a
                   onClick={() => onDelete(comment.id)}
-                  className="block py-2 px-4 hover:bg-gray-100 "
+                  className="block py-2 px-4 hover:bg-gray-100 cursor-pointer"
                 >
                   Remove
                 </a>
@@ -193,7 +199,11 @@ const Comment: React.FC<CommentType> = ({ comment, setComments }) => {
                 text="Post answer"
                 onClick={() => onAddAnswer(comment.id)}
               />
-              {alert && <div className="text-red-500">{alert}</div>}
+              {alert && (
+                <div className="text-red-500 mt-2 p-2 border-2 border-red-300">
+                  {alert}
+                </div>
+              )}
             </form>
           )}
         </div>

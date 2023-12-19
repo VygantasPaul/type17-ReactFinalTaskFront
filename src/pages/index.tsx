@@ -11,12 +11,9 @@ export default function Home({}) {
   const fetchComments = async () => {
     try {
       const response = await axios.get(PATH);
-      console.log(response.data.questionsAnswer);
       setComments(response.data.questionsAnswer);
     } catch (err) {
-      // @ts-ignore
-      if (err.response.status === 401) {
-      }
+      console.error(err);
     }
   };
 
@@ -28,7 +25,7 @@ export default function Home({}) {
       <PageTemplate>
         {comments ? (
           comments.length > 0 ? (
-            <Comments comments={comments} setComments={setComments} />
+            <Comments comments={comments} />
           ) : (
             <>
               <>No comments</>

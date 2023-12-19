@@ -1,5 +1,4 @@
 /* eslint-disable @next/next/no-img-element */
-import Link from "next/link";
 import React, { useState } from "react";
 import DesktopNavBar from "../DesktopNavBar/DesktopNavBar";
 import MobileNavBar from "../MobileNavBar/MobileNavBar";
