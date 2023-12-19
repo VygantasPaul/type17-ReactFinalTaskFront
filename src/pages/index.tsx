@@ -1,10 +1,9 @@
-import Image from "next/image";
-
 import PageTemplate from "@/components/PageTemplate/PageTemplate";
 import Comments from "@/components/Comments/Comments";
 import { useEffect, useState } from "react";
 import axios from "axios";
-export default function Home() {
+import Spinner from "@/components/Spinner/Spinner";
+export default function Home({}) {
   const [comments, setComments] = useState<Array<any> | null>(null);
 
   const PATH = "http://localhost:3010/questions/";
@@ -27,7 +26,17 @@ export default function Home() {
   return (
     <>
       <PageTemplate>
-        {comments ? <Comments comments={comments} /> : <> No comments</>}
+        {comments ? ( // Check if comments is not null or undefined
+          comments.length > 0 ? ( // Check if comments array has elements
+            <Comments comments={comments} /> // Render the Comments component with comments data
+          ) : (
+            <>
+              <>No comments</>
+            </>
+          )
+        ) : (
+          <Spinner />
+        )}
       </PageTemplate>
       ;
     </>
