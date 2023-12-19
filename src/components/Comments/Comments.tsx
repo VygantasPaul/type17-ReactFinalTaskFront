@@ -11,12 +11,11 @@ import axios from "axios";
 type CommentsType = {
   comments: Array<any> | null; ///tikisi nullo arba masyvo
 };
-const Comments: React.FC<CommentsType> = ({ comments }) => {
+const Comments: React.FC<CommentsType> = ({ comments, setComments }) => {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
   const [alert, setAlert] = useState<string>("");
   const [questionField, setQuestionField] = useState<string>("");
-
   const [isLoggedIn, setLoggedIn] = useState(false);
 
   const checkValidation = () => {
@@ -69,7 +68,7 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
   return (
     <div className="lg:container ">
       <section className="bg-white py-8 lg:py-16 ">
-        <div className="max-w-2xl mx-auto px-4">
+        <div className="max-w-4xl mx-auto px-4">
           <div className="flex justify-between items-center mb-6">
             <h2 className="text-lg lg:text-2xl font-bold text-gray-900 ">
               Questions: ({comments?.length})
@@ -90,18 +89,19 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
           )}
 
           {comments &&
-            comments.map((comment) => (
-              <div key={comment.id}>
-                <Comment comment={comment} />
-
-                {comment.answers_data &&
-                  comment.answers_data.map((answer: any) => (
-                    <div key={answer.id}>
-                      <Answer answer={answer} />
-                    </div>
-                  ))}
-              </div>
-            ))}
+            comments
+              .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
+              .map((comment) => (
+                <div className="comments_wrap" key={comment.id}>
+                  <Comment comment={comment} />
+                  {comment.answers_data &&
+                    comment.answers_data.map((answer: any) => (
+                      <div key={answer.id}>
+                        <Answer answer={answer} />
+                      </div>
+                    ))}
+                </div>
+              ))}
         </div>
       </section>
     </div>

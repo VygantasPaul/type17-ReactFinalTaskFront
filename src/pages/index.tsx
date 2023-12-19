@@ -26,9 +26,9 @@ export default function Home({}) {
   return (
     <>
       <PageTemplate>
-        {comments ? ( // Check if comments is not null or undefined
-          comments.length > 0 ? ( // Check if comments array has elements
-            <Comments comments={comments} /> // Render the Comments component with comments data
+        {comments ? (
+          comments.length > 0 ? (
+            <Comments comments={comments} setComments={setComments} />
           ) : (
             <>
               <>No comments</>
