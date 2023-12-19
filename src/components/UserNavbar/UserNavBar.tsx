@@ -1,3 +1,4 @@
+/* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 import cookie from "js-cookie";
@@ -7,6 +8,7 @@ const UserNavBar = () => {
   const router = useRouter();
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [userName, setUserName] = useState(false);
+  const [avatar, setAvatar] = useState(false);
   useEffect(() => {
     const cookieLogged = cookie.get("jwttoken");
     if (cookieLogged) {
@@ -16,6 +18,9 @@ const UserNavBar = () => {
       console.log(userData);
       if (userData && userData.user) {
         setUserName(userData.user);
+      }
+      if (userData && userData.avatar) {
+        setAvatar(userData.avatar);
       }
     }
   }, []);
@@ -47,12 +52,8 @@ const UserNavBar = () => {
       )}
       {isLoggedIn && (
         <div className="flex items-center">
-          <img
-            className="h-8 w-8 rounded-full"
-            src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-            alt=""
-          ></img>
-          <span className="text-white px-3">{userName},</span>
+          <img className="h-8 w-8 rounded-full" src={avatar} alt={avatar}></img>
+          <span className="text-white px-3">Sveiki atvyke, {userName},</span>
 
           <button
             onClick={onLogout}

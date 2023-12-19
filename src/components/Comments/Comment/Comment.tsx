@@ -2,8 +2,8 @@
 import React, { useState, useEffect } from "react";
 import cookie from "js-cookie";
 import axios from "axios";
-import Textarea from "../Textarea/Textarea";
-import Button from "../Button/Button";
+import Textarea from "../../Textarea/Textarea";
+import Button from "../../Button/Button";
 import { useRouter } from "next/router";
 type CommentComponent = {
   createdAt: string;

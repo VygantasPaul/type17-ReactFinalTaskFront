@@ -112,6 +112,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
             <>
               <div className="flex gap-2">
                 <svg
+                  className={`cursor-pointer`}
                   onClick={() => onClickLike(answer.id)}
                   xmlns="http://www.w3.org/2000/svg"
                   fill="none"
@@ -119,7 +120,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
                   strokeWidth="1.5"
                   stroke="currentColor"
                   data-slot="icon"
-                  className="w-6 h-6"
+                  className="w-6 h-6 cursor-pointer"
                 >
                   <path
                     strokeLinecap="round"
@@ -144,7 +145,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
                   strokeWidth="1.5"
                   stroke="currentColor"
                   data-slot="icon"
-                  className="w-6 h-6"
+                  className="w-6 h-6 cursor-pointer"
                 >
                   <path
                     strokeLinecap="round"

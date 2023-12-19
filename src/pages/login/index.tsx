@@ -109,7 +109,11 @@ const Login = () => {
               </button>
             </div>
           </form>
-          {alert && <div className="text-fuchsia-400">{alert}</div>}
+          {alert && (
+            <div className="text-red-500 mt-2 p-2 border-2 border-red-300">
+              {alert}
+            </div>
+          )}
         </div>
       </div>
     </AddTemplate>

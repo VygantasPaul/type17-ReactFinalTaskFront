@@ -1,6 +1,8 @@
 import React from "react";
-
-const CommentsHeader = ({ comments }) => {
+type CoomentType = {
+  comments: string;
+};
+const CommentsHeader: React.FC<CoomentType> = ({ comments }) => {
   return (
     <div className="flex justify-between items-center mb-6">
       <h2 className="text-lg lg:text-2xl font-bold text-gray-900 ">

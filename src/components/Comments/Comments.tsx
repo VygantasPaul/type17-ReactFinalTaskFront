@@ -2,17 +2,16 @@
 import React, { useEffect, useState } from "react";
 import Button from "../Button/Button";
 import Textarea from "../Textarea/Textarea";
-import Comment from "../Comment/Comment";
-import Answer from "../Answer/Answer";
 import { useRouter } from "next/router";
 import cookie from "js-cookie";
 import axios from "axios";
-import CommentHeader from "../CommentsHeader/CommentsHeader";
+import CommentHeader from "./CommentsHeader/CommentsHeader";
 import AnsweredComments from "./AnsweredComments/AnsweredComments";
 import UnAnsweredComments from "./UnAnsweredComments/UnAnsweredComments";
-
+import AllComments from "./AllComments/AllComments";
+import styles from "./Comments.module.css";
 type CommentsType = {
-  comments: Array<any> | null; ///tikisi nullo arba masyvo
+  comments: Array<any> | null;
 };
 const Comments: React.FC<CommentsType> = ({ comments }) => {
   const router = useRouter();
@@ -24,20 +23,26 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
 
   const [isShowAll, setShowAll] = useState(true);
   const [isShowAnswered, setShowAnswered] = useState(false);
-  const [isShowUnanswered, setUnanswered] = useState(false);
+  const [isShowUnAnswered, setUnanswered] = useState(false);
 
   const allToShow = () => {
     setShowAll(true);
+    setShowAnswered(false);
+    setUnanswered(false);
   };
+
   const answeredToShow = () => {
     setShowAnswered(true);
     setShowAll(false);
+    setUnanswered(false);
   };
+
   const unansweredToShow = () => {
     setUnanswered(true);
     setShowAnswered(false);
     setShowAll(false);
   };
+
   const checkValidation = () => {
     if (!questionField) {
       setAlert("Please fill comment field");
@@ -47,14 +52,7 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
       return true;
     }
   };
-  useEffect(() => {
-    const cookieLogged = cookie.get("jwttoken");
-    if (cookieLogged) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-  }, []);
+
   const onAddComment = async () => {
     try {
       const isValid = checkValidation();
@@ -85,7 +83,14 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
       }
     }
   };
-
+  useEffect(() => {
+    const cookieLogged = cookie.get("jwttoken");
+    if (cookieLogged) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, []);
   return (
     <div className="lg:container ">
       <section className="bg-white py-8 lg:py-16 ">
@@ -109,13 +114,14 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
             </form>
           )}
           <>
-            <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 dark:text-gray-400 dark:border-gray-700">
+            <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 ">
               <ul className="flex flex-wrap -mb-px">
                 <li className="me-2">
                   <a
                     onClick={allToShow}
-                    className="inline-block p-4 border-b-2 text-blue-600 border-blue-600 rounded-t-lg active hover:text-gray-600 hover:border-gray-300 cursor-pointer"
-                    aria-current="page"
+                    className={`inline-block p-4 border-b-2 hover:text-red-300  rounded-t-lg border-transparent hover:text-red-500 hover:border-red-500 cursor-pointer ${
+                      isShowAll ? `${styles.active}` : ""
+                    }`}
                   >
                     All
                   </a>
@@ -123,7 +129,9 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
                 <li className="me-2">
                   <a
                     onClick={answeredToShow}
-                    className="inline-block p-4  border-b-2 border-transparent rounded-t-lg  hover:border-gray-300 cursor-pointer"
+                    className={`inline-block p-4  border-b-2 hover:text-red-300 rounded-t-lg border-transparent hover:text-red-500 hover:border-red-500 cursor-pointer ${
+                      isShowAnswered ? `${styles.active}` : ""
+                    }`}
                   >
                     Answered
                   </a>
@@ -131,7 +139,9 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
                 <li className="me-2">
                   <a
                     onClick={unansweredToShow}
-                    className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300 cursor-pointer"
+                    className={`inline-block p-4 border-b-2  rounded-t-lg border-transparent  hover:text-red-500 hover:border-red-500 hover:border-red-300 cursor-pointer ${
+                      isShowUnAnswered ? `${styles.active}` : ""
+                    }`}
                   >
                     Unanswered
                   </a>
@@ -139,23 +149,9 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
               </ul>
             </div>
           </>
-          {isShowAll && (
-            <div className="comments_wrap">
-              {comments
-                .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
-                .map((question) => (
-                  <div key={question.id}>
-                    <Comment comment={question} />
-                    {question.answers_data &&
-                      question.answers_data.map((answer: any) => (
-                        <Answer answer={answer} key={answer.id} />
-                      ))}
-                  </div>
-                ))}
-            </div>
-          )}
+          {isShowAll && <AllComments comments={comments} />}
           {isShowAnswered && <AnsweredComments comments={comments} />}
-          {isShowUnanswered && <UnAnsweredComments comments={comments} />}
+          {isShowUnAnswered && <UnAnsweredComments comments={comments} />}
         </div>
       </section>
     </div>
