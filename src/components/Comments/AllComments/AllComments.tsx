@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Comment from "@/components/Comments/Comment/Comment";
-import Answer from "@/components/Answer/Answer";
+import Answer from "@/components/Comments/Answer/Answer";
 const AllComments = ({ comments }) => {
   return (
     <div className="comments_wrap">

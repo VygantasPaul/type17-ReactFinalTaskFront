@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import Comment from "@/components/Comments/Comment/Comment";
-import Answer from "@/components/Answer/Answer";
+import Answer from "@/components/Comments/Answer/Answer";
 import axios from "axios";
 const AnsweredComments = ({ comments }) => {
   const [answeredData, setAnswereDData] = useState(false);

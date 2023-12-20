@@ -5,7 +5,7 @@ const Logo = () => {
     // eslint-disable-next-line @next/next/no-img-element
     <img
       className="h-8 w-auto"
-      src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
+      src="https://upload.wikimedia.org/wikipedia/commons/thumb/e/ef/Stack_Overflow_icon.svg/768px-Stack_Overflow_icon.svg.png"
       alt="Your Company"
     ></img>
   );

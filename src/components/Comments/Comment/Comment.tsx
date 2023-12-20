@@ -5,6 +5,7 @@ import axios from "axios";
 import Textarea from "../../Textarea/Textarea";
 import Button from "../../Button/Button";
 import { useRouter } from "next/router";
+import Modal from "@/components/Modal/Modal";
 type CommentComponent = {
   createdAt: string;
   gained_likes_number: string;
@@ -12,7 +13,7 @@ type CommentComponent = {
   id: string;
 };
 type CommentType = {
-  comment: Array<CommentComponent>;
+  comment: CommentComponent;
 };
 const Comment: React.FC<CommentType> = ({ comment }) => {
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -21,6 +22,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
   const [isLoading, setLoading] = useState(false);
   const [isAnswerReply, setAnswerReply] = useState(false);
   const [isShowDelete, setiShowDelete] = useState(false);
+  const [isModal, setIsModal] = useState(false);
   const router = useRouter();
   const onDeleteShow = () => {
     setiShowDelete(!isShowDelete);
@@ -54,6 +56,10 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
         router.reload();
       }
     } catch (err) {
+      // @ts-ignore
+      if (err.response.status === 403) {
+        window.alert("You are not authorized");
+      }
       // @ts-ignore
       if (err.response.status === 401) {
         setAlert("Bad Authentification");
@@ -103,7 +109,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
   };
 
   return (
-    <article className="p-6 text-base bg-white rounded-lg ">
+    <article className="py-6 text-base bg-white rounded-lg ">
       <footer className="flex  mb-2 relative">
         <div className="flex justify-between w-full bg-gray-100 p-2 items-center">
           <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
@@ -155,7 +161,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
             >
               <li>
                 <a
-                  onClick={() => onDelete(comment.id)}
+                  onClick={() => setIsModal(true)}
                   className="block py-2 px-4 hover:bg-gray-100 cursor-pointer"
                 >
                   Remove
@@ -165,6 +171,12 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
           </div>
         )}
       </footer>
+      {isModal && (
+        <Modal
+          onConfirm={() => onDelete(comment.id)}
+          onCancel={() => setIsModal(false)}
+        />
+      )}
       <p className="text-gray-500 ">{comment.question_text}</p>
       {isLoggedIn && (
         <div className=" items-center mt-4 ">

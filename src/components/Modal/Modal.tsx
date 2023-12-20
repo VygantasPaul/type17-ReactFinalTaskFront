@@ -28,10 +28,12 @@ const Modal: React.FC<ModalType> = ({ onConfirm, onCancel }) => {
                     className="text-base font-semibold leading-6 text-gray-900"
                     id="modal-title"
                   >
-                    Delete location
+                    Delete comment
                   </h3>
                   <div className="mt-2">
-                    <p className="text-sm text-gray-500">Are you sure ?</p>
+                    <p className="text-sm text-gray-500">
+                      Are you sure you want ?
+                    </p>
                   </div>
                 </div>
               </div>
