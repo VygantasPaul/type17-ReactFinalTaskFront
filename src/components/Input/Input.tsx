@@ -1,7 +1,44 @@
 import React from "react";
-
-const Input = () => {
-  return <div>Input</div>;
+type InputType = {
+  value: string;
+  setValue: (value: string) => void;
+  placeholder: string;
+  name: string;
+  className: string;
+  id: string;
+  label: string;
+  labelClassName: string;
+  type: string;
+};
+const Input: React.FC<InputType> = ({
+  value,
+  setValue,
+  placeholder,
+  name,
+  className,
+  id,
+  label,
+  labelClassName,
+  type,
+}) => {
+  return (
+    <div>
+      <label htmlFor={label} className={labelClassName}>
+        {label}
+      </label>
+      <div className="mt-2">
+        <input
+          type={type}
+          id={id}
+          value={value}
+          onChange={(e) => setValue(e.target.value)}
+          name={name}
+          className={className}
+          placeholder={placeholder}
+        ></input>
+      </div>
+    </div>
+  );
 };
 
 export default Input;
