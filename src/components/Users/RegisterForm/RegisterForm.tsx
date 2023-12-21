@@ -1,15 +1,15 @@
-import React from "react";
+import React, { Dispatch } from "react";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
 type RegisterType = {
-  email: string;
+  email: string | null;
   setEmail: () => void;
-  name: string;
+  name: string | null;
   setName: () => void;
-  avatar: string;
+  avatar: string | null;
   setAvatar: () => void;
-  password: string;
+  password: string | null;
   setPassword: () => void;
   isLoading: Boolean;
   onRegister: () => void;
@@ -68,7 +68,7 @@ const RegisterForm: React.FC<RegisterType> = ({
         <Input
           label="Password"
           labelClassName={`block text-sm font-medium leading-6 text-gray-900`}
-          value={password}
+          value={String(password)}
           setValue={setPassword}
           className={`block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
           placeholder="Please fill password"
