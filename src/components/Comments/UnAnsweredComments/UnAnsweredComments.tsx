@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from "react";
 import Comment from "@/components/Comments/Question/Question";
 import axios from "axios";
-const AnsweredComments = ({ comments }) => {
-  const [unansweredData, setUnAnswereDData] = useState(false);
+const AnsweredComments = () => {
+  const [unansweredData, setUnAnswereDData] = useState<Array<any> | null>(null);
   const fetchUnAnswered = async () => {
     try {
       const response = await axios.get(

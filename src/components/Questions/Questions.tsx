@@ -15,7 +15,7 @@ const Questions = ({ question }) => {
   return (
     <article className=" text-base bg-white border-b-2 border-indigo-500 mb-2">
       <footer className="flex bg-indigo-100  mb-2 relative">
-        <div className="p-3 lg:flex w-full justify-between items-center">
+        <div className="p-3 flex w-full justify-between items-center">
           <div>
             <div>
               <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
@@ -36,7 +36,7 @@ const Questions = ({ question }) => {
               <time title="February 8th, 2022">
                 {new Date(question.createdAt).toLocaleString("en-US", {
                   year: "numeric",
-                  month: "long",
+                  month: "short",
                   day: "numeric",
                   hour: "numeric",
                   minute: "numeric",

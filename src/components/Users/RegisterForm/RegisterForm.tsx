@@ -2,7 +2,20 @@ import React from "react";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
-const RegisterForm = ({
+type RegisterType = {
+  email: string;
+  setEmail: () => void;
+  name: string;
+  setName: () => void;
+  avatar: string;
+  setAvatar: () => void;
+  password: string;
+  setPassword: () => void;
+  isLoading: Boolean;
+  onRegister: () => void;
+  alert: string | null;
+};
+const RegisterForm: React.FC<RegisterType> = ({
   email,
   setEmail,
   name,

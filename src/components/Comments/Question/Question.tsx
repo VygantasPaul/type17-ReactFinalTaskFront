@@ -2,6 +2,7 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 type CommentComponent = {
+  tags: any;
   createdAt: string;
   gained_likes_number: string;
   question_text: string;
@@ -25,7 +26,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
     <Link href={`/question/${comment.id}`} className="py-6 text-base bg-white ">
       <footer className="border-b-2 border-indigo-500 mb-2 relative ">
         <div className=" w-full bg-indigo-100 hover:bg-indigo-300 p-2 ">
-          <div className="p-3 lg:flex justify-between items-center">
+          <div className="p-3 flex justify-between items-center">
             <div>
               <div>
                 <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
@@ -46,7 +47,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
                 <time title="February 8th, 2022">
                   {new Date(comment.createdAt).toLocaleString("en-US", {
                     year: "numeric",
-                    month: "long",
+                    month: "short",
                     day: "numeric",
                     hour: "numeric",
                     minute: "numeric",

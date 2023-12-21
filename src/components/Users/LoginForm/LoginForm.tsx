@@ -2,7 +2,17 @@ import React from "react";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
-const LoginForm = ({
+type LoginType = {
+  email: string;
+  setEmail: () => void;
+  password: string;
+  setPassword: () => void;
+  isLoading: Boolean;
+  onLogin: () => void;
+  alert: string | null;
+};
+
+const LoginForm: React.FC<LoginType> = ({
   email,
   setEmail,
   password,

@@ -1,7 +1,9 @@
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Comment from "@/components/Comments/Question/Question";
-import Answer from "@/components/Comments/Answer/Answer";
-const AllComments = ({ comments }) => {
+type CommentsType = {
+  comments: Array<any>;
+};
+const AllComments: React.FC<CommentsType> = ({ comments }) => {
   return (
     <div className="comments_wrap">
       {comments
@@ -9,10 +11,6 @@ const AllComments = ({ comments }) => {
         .map((question) => (
           <div key={question.id}>
             <Comment comment={question} />
-            {/* {question.answers_data &&
-              question.answers_data.map((answer: any) => (
-                <Answer answer={answer} key={answer.id} />
-              ))} */}
           </div>
         ))}
     </div>

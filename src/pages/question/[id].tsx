@@ -38,17 +38,19 @@ const QuestionId: React.FC<QuestionComponent> = () => {
   const headers = {
     authorization: cookie.get("jwttoken"),
   };
-  const fetchQuestion = async (id) => {
+  const fetchQuestion = async (id: string) => {
     const response = await axios.get(`http://localhost:3010/questions/${id}`, {
       headers,
     });
     setQuestion(response.data.questionAnswer[0]);
   };
-
+  const inputRegex = /^\S.{5,}/;
   const checkValidation = () => {
     if (!answerField) {
       setAlert("Please fill comment field");
       return false;
+    } else if (!inputRegex.test(answerField)) {
+      setAlert("Please enter atleat 5 letters");
     } else {
       setAlert("Comment added");
       return true;
@@ -242,7 +244,6 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                         {question.tags.split(",").map((tag, index) => (
                           <span key={index} className="text-xs mr-1">
                             <div className="bg-indigo-100 p-1 inline">
-                              {" "}
                               {tag.trim()}
                             </div>
                             ,

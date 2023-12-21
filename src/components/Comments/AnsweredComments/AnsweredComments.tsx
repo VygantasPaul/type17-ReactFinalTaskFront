@@ -1,9 +1,9 @@
 import React, { useState, useEffect } from "react";
 import Comment from "@/components/Comments/Question/Question";
-import Answer from "@/components/Comments/Answer/Answer";
 import axios from "axios";
-const AnsweredComments = ({ comments }) => {
-  const [answeredData, setAnswereDData] = useState(false);
+
+const AnsweredComments = () => {
+  const [answeredData, setAnswereDData] = useState<Array<any> | null>(null);
   const fetchAnswered = async () => {
     try {
       const response = await axios.get(
