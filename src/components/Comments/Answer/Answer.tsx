@@ -33,6 +33,8 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
 
       if (response.status === 200) {
         router.reload();
+        setIsModal(false);
+        window.alert("Answer deleted successfully");
       }
     } catch (err) {
       if (err.response.status === 401) {
@@ -106,7 +108,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
   return (
     <article className="p-6 mb-3 ml-6 lg:ml-12 text-base bg-white rounded-lg ">
       <footer className="flex justify-between items-center mb-2 relative">
-        <div className="lg:flex items-center justify-between w-full bg-gray-100 p-2">
+        <div className="lg:flex items-center justify-between w-full bg-indigo-100 p-2">
           <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
             <img
               className="mr-2 w-6 h-6 rounded-full"
@@ -123,7 +125,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
             />
           )}
 
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm text-gray-600 dark:text-gray-400 pb-3 lg:pb-0">
             <time title="February 12th, 2022">
               {new Date(answer.createdAt).toLocaleString("en-US", {
                 year: "numeric",
@@ -138,7 +140,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
           {isLoggedIn && (
             <button
               onClick={onDeleteShow}
-              className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-500  bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 0"
+              className="relative  items-center p-2 text-sm font-medium text-center text-gray-500  bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 0"
               type="button"
             >
               <svg
@@ -151,23 +153,23 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
                 <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
               </svg>
               <span className="sr-only">Comment settings</span>
+              {isShowDelete && (
+                <div className="absolute left-0 lg:right-0 -top-10 lg:-top-10 z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow  ">
+                  <ul className="py-1 text-sm text-gray-700 ">
+                    <li>
+                      <a
+                        onClick={() => setIsModal(answer.id)}
+                        className="block py-2 px-4 hover:bg-gray-100 cursor-pointer"
+                      >
+                        Remove
+                      </a>
+                    </li>
+                  </ul>
+                </div>
+              )}
             </button>
           )}
         </div>
-        {isShowDelete && (
-          <div className="absolute right-0 top-10 z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow  ">
-            <ul className="py-1 text-sm text-gray-700 ">
-              <li>
-                <a
-                  onClick={() => setIsModal(answer.id)}
-                  className="block py-2 px-4 hover:bg-gray-100 cursor-pointer"
-                >
-                  Remove
-                </a>
-              </li>
-            </ul>
-          </div>
-        )}
       </footer>
       {isModal && (
         <Modal

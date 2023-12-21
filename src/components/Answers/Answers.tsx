@@ -64,10 +64,10 @@ const Answers = ({ answer }) => {
     }
   }, []);
   return (
-    <article className="p-6 text-base bg-white rounded-lg ">
-      <footer className="flex  mb-2 relative">
-        <div className="flex justify-between w-full bg-gray-100 p-2 items-center">
-          <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
+    <article className="text-base bg-white rounded-lg ">
+      <footer className="flex  mb-2 relative ">
+        <div className="flex justify-between w-full bg-indigo-100 p-2 items-center">
+          <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold p-2 ">
             <img
               className="mr-2 w-6 h-6 rounded-full"
               src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png"
@@ -82,7 +82,7 @@ const Answers = ({ answer }) => {
               onDislike={() => onClickDislike(answer.id)}
             />
           )}
-          <p className="text-sm text-gray-600 dark:text-gray-400">
+          <p className="text-sm text-gray-600 dark:text-gray-400 pb-3 lg:pb-0">
             <time>
               {new Date(answer.createdAt).toLocaleString("en-US", {
                 year: "numeric",
@@ -95,7 +95,9 @@ const Answers = ({ answer }) => {
           </p>
         </div>
       </footer>
-      <p className="text-gray-500 ">{answer.answer_text}</p>
+      <div className="p-3">
+        <p className="text-gray-500 ">{answer.answer_text}</p>
+      </div>
     </article>
   );
 };

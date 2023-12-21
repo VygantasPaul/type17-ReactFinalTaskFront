@@ -3,7 +3,7 @@ import React from "react";
 const LikesDislikes = ({ answer, onLike, onDislike }) => {
   return (
     <>
-      <div className="flex gap-2">
+      <div className="flex gap-2 py-3 lg:py-0">
         <svg
           onClick={onLike}
           xmlns="http://www.w3.org/2000/svg"

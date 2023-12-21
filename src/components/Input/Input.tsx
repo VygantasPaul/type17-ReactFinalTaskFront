@@ -23,9 +23,11 @@ const Input: React.FC<InputType> = ({
 }) => {
   return (
     <div>
-      <label htmlFor={label} className={labelClassName}>
-        {label}
-      </label>
+      {label && (
+        <label htmlFor={id} className={labelClassName}>
+          {label}
+        </label>
+      )}
       <div className="my-2">
         <input
           type={type}

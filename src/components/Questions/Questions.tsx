@@ -2,33 +2,56 @@
 import React from "react";
 
 const Questions = ({ question }) => {
-  return (
-    <article className="p-6 text-base bg-white rounded-lg ">
-      <footer className="flex  mb-2 relative">
-        <div className="flex justify-between w-full bg-gray-100 p-2 items-center">
-          <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
-            <img
-              className="mr-2 w-6 h-6 rounded-full"
-              src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png"
-              alt="User"
-            ></img>
-            User
-          </p>
+  if (!question.tags) {
+    return null;
+  }
+  const tagsString = question.tags;
 
-          <p className="text-sm text-gray-600 dark:text-gray-400">
-            <time title="February 8th, 2022">
-              {new Date(question.createdAt).toLocaleString("en-US", {
-                year: "numeric",
-                month: "long",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-              })}
-            </time>
-          </p>
+  const renderedTags = tagsString.split(",").map((tag, index) => (
+    <span key={index} className="text-xs mr-1">
+      <div className="bg-indigo-100 p-1 inline "> {tag}</div> ,
+    </span>
+  ));
+  return (
+    <article className=" text-base bg-white border-b-2 border-indigo-500 mb-2">
+      <footer className="flex bg-indigo-100  mb-2 relative">
+        <div className="p-3 lg:flex w-full justify-between items-center">
+          <div>
+            <div>
+              <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
+                <img
+                  className="mr-2 w-6 h-6 rounded-full"
+                  src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png"
+                  alt="User"
+                ></img>
+                User
+              </p>
+            </div>
+            <div className="pt-3">
+              <h2>Title: {question.title}</h2>
+            </div>
+          </div>
+          <div>
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              <time title="February 8th, 2022">
+                {new Date(question.createdAt).toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "long",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                })}
+              </time>
+            </p>
+          </div>
         </div>
       </footer>
-      <p className="text-gray-500 ">{question.question_text}</p>
+      <div className="p-3">
+        <p className="text-gray-500 ">{question.question_text}</p>
+      </div>
+      <div className="p-3">
+        <span>Tags:</span> {renderedTags}
+      </div>
     </article>
   );
 };

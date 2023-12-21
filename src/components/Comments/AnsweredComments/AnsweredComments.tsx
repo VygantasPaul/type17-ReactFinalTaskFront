@@ -27,10 +27,6 @@ const AnsweredComments = ({ comments }) => {
             .map((comment) => (
               <div className="comments_wrap" key={comment.id}>
                 <Comment key={comment.id} comment={comment} />
-                {/* {comment.answers_data &&
-                  comment.answers_data.map((answer: any) => (
-                    <Answer answer={answer} key={answer.id} />
-                  ))} */}
               </div>
             ))}
       </>

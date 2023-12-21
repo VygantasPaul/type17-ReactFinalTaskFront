@@ -9,7 +9,7 @@ const AnsweredComments = ({ comments }) => {
         "http://localhost:3010/questions/noAnswers"
       );
       setUnAnswereDData(response.data.questionNoAnswers);
-      console.log(response.data);
+      console.log(response.data.questionNoAnswers);
     } catch (err) {
       console.error(err);
     }

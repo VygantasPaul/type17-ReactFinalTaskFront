@@ -11,7 +11,6 @@ const Questions = () => {
     try {
       const response = await axios.get("http://localhost:3010/questions/all");
       setQuestions(response.data.questions);
-      console.log(response.data);
     } catch (err) {
       console.error(err);
     }
@@ -25,17 +24,27 @@ const Questions = () => {
         <div className="lg:container ">
           <section className="bg-white py-8 lg:py-16 ">
             <div className="max-w-6xl mx-auto px-4">
-              {questions && (
-                <CommentsHeader text="Questions" commentCount={questions} />
-              )}
               {questions ? (
-                questions
-                  .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
-                  .map((question) => (
-                    <div key={question.id}>
-                      <QuestionsComponent question={question} />
-                    </div>
-                  ))
+                <>
+                  {questions.length > 0 ? (
+                    <>
+                      <CommentsHeader
+                        text="Questions"
+                        commentCount={questions}
+                      />
+                      {questions
+                        .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
+                        .map((question) => (
+                          <QuestionsComponent
+                            question={question}
+                            key={question.id}
+                          />
+                        ))}
+                    </>
+                  ) : (
+                    <p>No questions.</p>
+                  )}
+                </>
               ) : (
                 <Spinner />
               )}

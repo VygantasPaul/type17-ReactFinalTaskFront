@@ -13,7 +13,16 @@ import Textarea from "@/components/Textarea/Textarea";
 import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
 
-const QuestionId = () => {
+type QuestionComponent = {
+  createdAt: string;
+  title: string;
+  tags: string;
+  gained_likes_number: string;
+  question_text: string;
+  id: string;
+};
+
+const QuestionId: React.FC<QuestionComponent> = () => {
   const [isLoading, setLoading] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [alert, setAlert] = useState<string>("");
@@ -33,7 +42,6 @@ const QuestionId = () => {
     const response = await axios.get(`http://localhost:3010/questions/${id}`, {
       headers,
     });
-    console.log(response.data.questionAnswer[0]);
     setQuestion(response.data.questionAnswer[0]);
   };
 
@@ -58,12 +66,30 @@ const QuestionId = () => {
   }, [router.query]);
 
   const onDelete = async () => {
-    console.log("id", router.query.id);
-    await axios.delete(`http://localhost:3010/questions/${router.query.id}`, {
-      headers,
-    });
-    router.push("/");
-    window.alert("Successfully deleted");
+    try {
+      const headers = {
+        authorization: cookie.get("jwttoken"),
+      };
+
+      const response = await axios.delete(
+        `http://localhost:3010/questions/${router.query.id}`,
+        {
+          headers,
+        }
+      );
+      if (response.status === 200) {
+        router.push("/");
+      }
+
+      window.alert("Successfully deleted");
+    } catch (err) {
+      // @ts-ignore
+      if (err.response.status === 401) {
+        setIsModal(false);
+        window.alert("You have no rights to delete this comment");
+        return false;
+      }
+    }
   };
 
   const onAddAnswer = async () => {
@@ -102,12 +128,12 @@ const QuestionId = () => {
         <div className="comments_wrap">
           <div className="lg:container ">
             <section className="bg-white py-8 lg:py-16 ">
-              <div className="max-w-6xl mx-auto px-4">
+              <div className="max-w-6xl mx-auto px-4  pb-3">
                 <CommentHeader text="Question" commentCount={false} />
                 {isLoggedIn && (
                   <form className="mb-6">
                     <Textarea
-                      label="Answer"
+                      label={false}
                       labelClassName={`block text-sm font-medium leading-6 text-gray-900`}
                       value={String(answerField)}
                       setValue={setAnswerField}
@@ -128,7 +154,7 @@ const QuestionId = () => {
                 {question ? (
                   <>
                     <footer className="flex mb-2 relative">
-                      <div className="lg:flex justify-between w-full bg-gray-100 p-2 items-center">
+                      <div className="lg:flex justify-between w-full bg-indigo-100 p-2 items-center">
                         <div>
                           <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
                             <img
@@ -138,12 +164,16 @@ const QuestionId = () => {
                             ></img>
                             User
                           </p>
-                          <div className="pt-3">
+                          <div className="pt-2">
                             <h2>Title: {question.title}</h2>
+                            <h4>
+                              <span>Replied:</span>(
+                              {question.answers_data.length})
+                            </h4>
                           </div>
                         </div>
                         <div>
-                          <p className="text-sm text-gray-600 dark:text-gray-400">
+                          <p className="text-sm text-gray-600 dark:text-gray-400 pb-3 lg:pb-0">
                             <time title="February 8th, 2022">
                               {new Date(question.createdAt).toLocaleString(
                                 "en-US",
@@ -162,7 +192,7 @@ const QuestionId = () => {
                           <button
                             onClick={onDeleteShow}
                             id="dropdownComment1Button"
-                            className=" inline-flex items-center p-2 text-sm font-medium text-center text-gray-500  bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 "
+                            className="relative  items-center p-2 text-sm font-medium text-center text-gray-500  bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 "
                             type="button"
                           >
                             <svg
@@ -175,26 +205,26 @@ const QuestionId = () => {
                               <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
                             </svg>
                             <span className="sr-only">Comment settings</span>
+                            {isShowDelete && (
+                              <div className="z-10 w-36 absolute left-0 lg:right-0 -top-10 lg:-top-10 bg-white rounded divide-y divide-gray-100 shadow ">
+                                <ul
+                                  className="py-1 text-sm text-gray-700 "
+                                  aria-labelledby="dropdownMenuIconHorizontalButton"
+                                >
+                                  <li>
+                                    <a
+                                      onClick={() => setIsModal(true)}
+                                      className="block py-2 px-4 hover:bg-gray-100 cursor-pointer"
+                                    >
+                                      Remove
+                                    </a>
+                                  </li>
+                                </ul>
+                              </div>
+                            )}
                           </button>
                         )}
                       </div>
-                      {isShowDelete && (
-                        <div className="z-10 w-36 absolute right-0 top-10 bg-white rounded divide-y divide-gray-100 shadow ">
-                          <ul
-                            className="py-1 text-sm text-gray-700 "
-                            aria-labelledby="dropdownMenuIconHorizontalButton"
-                          >
-                            <li>
-                              <a
-                                onClick={() => setIsModal(true)}
-                                className="block py-2 px-4 hover:bg-gray-100 cursor-pointer"
-                              >
-                                Remove
-                              </a>
-                            </li>
-                          </ul>
-                        </div>
-                      )}
                     </footer>
                     {isModal && (
                       <Modal
@@ -207,15 +237,18 @@ const QuestionId = () => {
                       <p>{question.question_text}</p>
                     </div>
                     <div>
-                      <span className="pr-3">Tags:</span>
-                      {question.tags.split(",").map((tag, index) => (
-                        <span key={index} className="text-xs mr-1">
-                          <div className="bg-gray-300 p-1 inline">
-                            {tag.trim()}
-                          </div>{" "}
-                          ,
-                        </span>
-                      ))}
+                      <div className="border-b-2 border-indigo-500 pb-2">
+                        <span className="pr-1">Tags:</span>
+                        {question.tags.split(",").map((tag, index) => (
+                          <span key={index} className="text-xs mr-1">
+                            <div className="bg-indigo-100 p-1 inline">
+                              {" "}
+                              {tag.trim()}
+                            </div>
+                            ,
+                          </span>
+                        ))}
+                      </div>
                     </div>
 
                     {question.answers_data &&

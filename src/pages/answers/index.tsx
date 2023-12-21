@@ -25,18 +25,19 @@ const Answers = () => {
         <div className="lg:container ">
           <section className="bg-white py-8 lg:py-16 ">
             <div className="max-w-6xl mx-auto px-4">
-              {answers && (
-                <CommentsHeader text="Answers" commentCount={answers} />
-              )}
-
               {answers ? (
-                answers
-                  .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
-                  .map((answer) => (
-                    <div key={answer.id}>
-                      <AnswersComponent answer={answer} />
-                    </div>
-                  ))
+                answers.length > 0 ? (
+                  <>
+                    <CommentsHeader text="Answers" commentCount={answers} />
+                    {answers
+                      .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
+                      .map((answer) => (
+                        <AnswersComponent answer={answer} key={answer.id} />
+                      ))}
+                  </>
+                ) : (
+                  <p>No answers.</p>
+                )
               ) : (
                 <Spinner />
               )}

@@ -1,7 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useEffect, useState } from "react";
-import Button from "../Button/Button";
-import Textarea from "../Textarea/Textarea";
 import { useRouter } from "next/router";
 import cookie from "js-cookie";
 import axios from "axios";
@@ -10,15 +8,13 @@ import AnsweredComments from "./AnsweredComments/AnsweredComments";
 import UnAnsweredComments from "./UnAnsweredComments/UnAnsweredComments";
 import AllComments from "./AllComments/AllComments";
 import styles from "./Comments.module.css";
-import Alerts from "../Alerts/Alerts";
-import Input from "@/components/Input/Input";
+import Form from "./AddQuestionForm/AddQuestionForm";
 type CommentsType = {
   comments: Array<any> | null;
 };
 const Comments: React.FC<CommentsType> = ({ comments }) => {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
-
   const [alert, setAlert] = useState<string>("");
   const [questionField, setQuestionField] = useState<string>("");
   const [titleField, setTitleField] = useState<string>("");
@@ -115,49 +111,21 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
         <div className="max-w-6xl mx-auto px-4">
           <CommentHeader text="Total Open questions" commentCount={comments} />
           {isLoggedIn && (
-            <form className="mb-6">
-              <Input
-                label="Title"
-                labelClassName={`block text-sm font-medium leading-6 text-gray-900`}
-                value={String(titleField)}
-                setValue={setTitleField}
-                className={`block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
-                placeholder="Please fill title"
-                name="title"
-                type="text"
-                id="title"
-              />
-              <Textarea
-                label="Question"
-                labelClassName={`block text-sm font-medium leading-6 text-gray-900`}
-                value={String(questionField)}
-                setValue={setQuestionField}
-                placeholder={`Type question`}
-                id="question"
-              />
-              <Input
-                label="Tags"
-                labelClassName={`block text-sm font-medium leading-6 text-gray-900`}
-                value={String(tagsField)}
-                setValue={setTagsField}
-                className={`block w-full rounded-md border-0 p-3 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6`}
-                placeholder="Please fill tags seperating with commas"
-                name="tags"
-                type="text"
-                id="tags"
-              />
-              <Button
-                className="py-2.5 px-4 text-xs font-medium text-center text-white bg-red-500 hover:bg-red-900 rounded-lg focus:ring-4 focus:ring-primary-200"
-                isLoading={isLoading}
-                text="Post comment"
-                onClick={onAddComment}
-              />
-              <Alerts alert={alert} />
-            </form>
+            <Form
+              titleField={titleField}
+              setTitleField={setTitleField}
+              questionField={questionField}
+              setQuestionField={setQuestionField}
+              tagsField={tagsField}
+              setTagsField={setTagsField}
+              isLoading={isLoading}
+              onAddComment={onAddComment}
+              alert={alert}
+            />
           )}
           <>
             <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 ">
-              <ul className="flex flex-wrap -mb-px">
+              <ul className="flex flex-wrap -mb-px mb-2">
                 <li className="me-2">
                   <a
                     onClick={allToShow}
