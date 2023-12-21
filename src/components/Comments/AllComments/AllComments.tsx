@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Comment from "@/components/Comments/Comment/Comment";
+import Comment from "@/components/Comments/Question/Question";
 import Answer from "@/components/Comments/Answer/Answer";
 const AllComments = ({ comments }) => {
   return (
@@ -9,10 +9,10 @@ const AllComments = ({ comments }) => {
         .map((question) => (
           <div key={question.id}>
             <Comment comment={question} />
-            {question.answers_data &&
+            {/* {question.answers_data &&
               question.answers_data.map((answer: any) => (
                 <Answer answer={answer} key={answer.id} />
-              ))}
+              ))} */}
           </div>
         ))}
     </div>

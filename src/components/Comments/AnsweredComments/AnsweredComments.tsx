@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Comment from "@/components/Comments/Comment/Comment";
+import Comment from "@/components/Comments/Question/Question";
 import Answer from "@/components/Comments/Answer/Answer";
 import axios from "axios";
 const AnsweredComments = ({ comments }) => {
@@ -10,7 +10,7 @@ const AnsweredComments = ({ comments }) => {
         "http://localhost:3010/questions/withAnswers"
       );
       setAnswereDData(response.data.questionWithAnswers);
-      console.log(response.data.questionWithAnswers);
+      console.log(response.data);
     } catch (err) {
       console.error(err);
     }
@@ -27,10 +27,10 @@ const AnsweredComments = ({ comments }) => {
             .map((comment) => (
               <div className="comments_wrap" key={comment.id}>
                 <Comment key={comment.id} comment={comment} />
-                {comment.answers_data &&
+                {/* {comment.answers_data &&
                   comment.answers_data.map((answer: any) => (
                     <Answer answer={answer} key={answer.id} />
-                  ))}
+                  ))} */}
               </div>
             ))}
       </>

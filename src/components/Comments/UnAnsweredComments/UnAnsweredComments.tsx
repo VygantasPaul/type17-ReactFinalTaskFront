@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import Comment from "@/components/Comments/Comment/Comment";
+import Comment from "@/components/Comments/Question/Question";
 import axios from "axios";
 const AnsweredComments = ({ comments }) => {
   const [unansweredData, setUnAnswereDData] = useState(false);
@@ -9,7 +9,7 @@ const AnsweredComments = ({ comments }) => {
         "http://localhost:3010/questions/noAnswers"
       );
       setUnAnswereDData(response.data.questionNoAnswers);
-      console.log(response.data.questionNoAnswers);
+      console.log(response.data);
     } catch (err) {
       console.error(err);
     }

@@ -11,7 +11,8 @@ export default function Home({}) {
   const fetchComments = async () => {
     try {
       const response = await axios.get(PATH);
-      setComments(response.data.questionsAnswer);
+      setComments(response.data.questionsAnswers);
+      console.log(response.data.questionsAnswers);
     } catch (err) {
       console.error(err);
     }

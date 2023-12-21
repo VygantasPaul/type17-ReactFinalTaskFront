@@ -26,7 +26,7 @@ const Input: React.FC<InputType> = ({
       <label htmlFor={label} className={labelClassName}>
         {label}
       </label>
-      <div className="mt-2">
+      <div className="my-2">
         <input
           type={type}
           id={id}
