@@ -125,11 +125,11 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
             />
           )}
 
-          <p className="text-sm text-gray-600 dark:text-gray-400 pb-3 lg:pb-0">
+          <p className="text-sm text-gray-600 dark:text-gray-600 pb-3 lg:pb-0">
             <time title="February 12th, 2022">
               {new Date(answer.createdAt).toLocaleString("en-US", {
                 year: "numeric",
-                month: "long",
+                month: "short",
                 day: "numeric",
                 hour: "numeric",
                 minute: "numeric",

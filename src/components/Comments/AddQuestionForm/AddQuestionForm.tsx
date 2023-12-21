@@ -3,8 +3,18 @@ import Input from "@/components/Input/Input";
 import Textarea from "@/components/Textarea/Textarea";
 import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
-
-const Form = ({
+type AddQuestionType = {
+  titleField: string;
+  setTitleField: () => void;
+  questionField: string;
+  setQuestionField: () => void;
+  tagsField: string;
+  setTagsField: () => void;
+  isLoading: Boolean;
+  onAddComment: () => void;
+  alert: string;
+};
+const Form: React.FC<AddQuestionType> = ({
   titleField,
   setTitleField,
   questionField,

@@ -155,17 +155,25 @@ const QuestionId: React.FC<QuestionComponent> = () => {
 
                 {question ? (
                   <>
+                    {console.log(question)}
                     <footer className="flex mb-2 relative">
                       <div className="lg:flex justify-between w-full bg-indigo-100 p-2 items-center">
                         <div>
-                          <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
-                            <img
-                              className="mr-2 w-6 h-6 rounded-full"
-                              src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png"
-                              alt="User"
-                            ></img>
-                            User
-                          </p>
+                          <div>
+                            {question.user_data &&
+                              question.user_data.map((user: any) => (
+                                <div key={user.id}>
+                                  <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
+                                    <img
+                                      className="mr-2 w-6 h-6 rounded-full"
+                                      src={user.avatar}
+                                      alt={user.name}
+                                    ></img>
+                                    {user.name}
+                                  </p>
+                                </div>
+                              ))}
+                          </div>
                           <div className="pt-2">
                             <h2>Title: {question.title}</h2>
                             <h4>
@@ -175,7 +183,7 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                           </div>
                         </div>
                         <div>
-                          <p className="text-sm text-gray-600 dark:text-gray-400 pb-3 lg:pb-0">
+                          <p className="text-sm text-gray-600 dark:text-gray-600 pb-3 lg:pb-0">
                             <time title="February 8th, 2022">
                               {new Date(question.createdAt).toLocaleString(
                                 "en-US",
@@ -234,7 +242,6 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                         onCancel={() => setIsModal(false)}
                       />
                     )}
-
                     <div className="p-3">
                       <p>{question.question_text}</p>
                     </div>
@@ -251,7 +258,6 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                         ))}
                       </div>
                     </div>
-
                     {question.answers_data &&
                       question.answers_data.map((answer: any) => (
                         <Answer answer={answer} key={answer.id} />

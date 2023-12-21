@@ -9,7 +9,7 @@ const Questions = () => {
   const [questions, setQuestions] = useState<Array<any> | null>(null);
   const fetchQuestions = async () => {
     try {
-      const response = await axios.get("http://localhost:3010/questions/all");
+      const response = await axios.get("http://localhost:3010/questions/");
       setQuestions(response.data.questions);
     } catch (err) {
       console.error(err);

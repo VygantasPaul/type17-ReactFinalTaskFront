@@ -12,7 +12,6 @@ export default function Home({}) {
     try {
       const response = await axios.get(PATH);
       setComments(response.data.questions);
-      console.log(response.data.questions);
     } catch (err) {
       console.error(err);
     }

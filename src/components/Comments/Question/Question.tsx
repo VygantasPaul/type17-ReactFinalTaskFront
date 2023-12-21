@@ -29,21 +29,26 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
           <div className="p-3 flex justify-between items-center">
             <div>
               <div>
-                <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
-                  <img
-                    className="mr-2 w-6 h-6 rounded-full"
-                    src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png"
-                    alt="User"
-                  ></img>
-                  User
-                </p>
+                {comment.user_data &&
+                  comment.user_data.map((user: any) => (
+                    <div key={user.id}>
+                      <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
+                        <img
+                          className="mr-2 w-6 h-6 rounded-full"
+                          src={user.avatar}
+                          alt="User"
+                        ></img>
+                        {user.name}
+                      </p>
+                    </div>
+                  ))}
               </div>
               <div className="pt-3">
                 <h2>Title: {comment.title} </h2>
               </div>
             </div>
             <div>
-              <p className="text-sm text-gray-600 dark:text-gray-400">
+              <p className="text-sm text-gray-600 dark:text-gray-600">
                 <time title="February 8th, 2022">
                   {new Date(comment.createdAt).toLocaleString("en-US", {
                     year: "numeric",
