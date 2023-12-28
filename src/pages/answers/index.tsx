@@ -9,7 +9,7 @@ const Answers = () => {
   const [answers, setAnswers] = useState<Array<any> | null>(null);
   const fetchAnswers = async () => {
     try {
-      const response = await axios.get("http://localhost:3010/answers");
+      const response = await axios.get(`${process.env.DEFAULT_PATH}/answers`);
       setAnswers(response.data.answers);
     } catch (err) {
       console.error(err);

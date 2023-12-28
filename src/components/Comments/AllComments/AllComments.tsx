@@ -1,7 +1,7 @@
 import React from "react";
 import Comment from "@/components/Comments/Question/Question";
 type CommentsType = {
-  comments: Array<any>;
+  comments: any[] | null;
 };
 const AllComments: React.FC<CommentsType> = ({ comments }) => {
   return (

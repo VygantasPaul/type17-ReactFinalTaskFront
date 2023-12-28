@@ -54,7 +54,7 @@ const UserNavBar = () => {
       {isLoggedIn && (
         <div className="flex w-full items-center">
           <img
-            className="h-8 w-8 rounded-full mr-3"
+            className="h-8 w-8 rounded-full mr-2 lg:mr-0"
             src={avatar ? avatar : <> No image</>}
             alt={`alt text`}
           ></img>

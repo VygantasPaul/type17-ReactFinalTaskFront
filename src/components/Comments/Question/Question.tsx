@@ -2,9 +2,12 @@
 import React, { useState, useEffect } from "react";
 import Link from "next/link";
 type CommentComponent = {
+  user_data: Array<any>;
+  answers_data: Array<any>;
   tags: any;
   createdAt: string;
-  gained_likes_number: string;
+  gained_likes_number: Array<any>;
+  gained_dislikes_number: Array<any>;
   question_text: string;
   id: string;
 };
@@ -26,12 +29,17 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
     <Link href={`/question/${comment.id}`} className="py-6 text-base bg-white ">
       <footer className="border-b-2 border-indigo-500 mb-2 relative ">
         <div className=" w-full bg-indigo-100 hover:bg-indigo-300 p-2 ">
-          <div className="p-3 flex justify-between items-center">
+          <div className="px-2 flex justify-between items-center">
             <div>
               <div>
+                {comment.answers_data && (
+                  <div className="pb-3">
+                    <p>Replyed: ({comment.answers_data.length}) </p>
+                  </div>
+                )}
                 {comment.user_data &&
                   comment.user_data.map((user: any) => (
-                    <div key={user.id}>
+                    <div key={user.id} className="pt-3">
                       <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
                         <img
                           className="mr-2 w-6 h-6 rounded-full"

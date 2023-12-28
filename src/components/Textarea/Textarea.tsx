@@ -6,7 +6,7 @@ type TextAreaType = {
   id: string;
   labelClassName: string;
   placeholder: string;
-  label?: string; // Change type to string and make it optional
+  label?: string;
 };
 
 const Textarea: React.FC<TextAreaType> = ({

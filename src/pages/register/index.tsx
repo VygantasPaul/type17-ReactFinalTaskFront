@@ -14,7 +14,7 @@ const Register = () => {
   const router = useRouter();
   const validation = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-    const inputRegex = /^\S.{5,}/;
+    const inputRegex = /^\S.{4,}/;
     const imageUrlRegex =
       /^(https?:\/\/)?(?:www\.)?([^.\s]+\.[^.\s]+)(\.\w{2,})+\/([^.\s]+\.\w{3,})$/;
 
@@ -25,7 +25,7 @@ const Register = () => {
       setAlert("Wrong email format");
       return false;
     } else if (!inputRegex.test(name)) {
-      setAlert("Please enter atleat 5 letters");
+      setAlert("Please enter name atleat 4 letters");
       return false;
     } else if (!avatar) {
       setAlert("Empty avatar field");
@@ -51,7 +51,7 @@ const Register = () => {
         };
         setLoading(true);
         const response = await axios.post(
-          "http://localhost:3010/users/register",
+          `${process.env.DEFAULT_PATH}/users/register`,
           body
         );
         setLoading(false);
@@ -59,7 +59,7 @@ const Register = () => {
           setTimeout(() => {
             router.push("/login");
           }, 1000);
-          setAlert("User registered");
+          setAlert("User registered. Redirecting...");
         }
       }
     } catch (err) {
@@ -90,7 +90,7 @@ const Register = () => {
             email={email}
             setEmail={setEmail}
             name={name}
-            setName={setEmail}
+            setName={setName}
             avatar={avatar}
             setAvatar={setAvatar}
             password={password}

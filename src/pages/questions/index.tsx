@@ -9,7 +9,9 @@ const Questions = () => {
   const [questions, setQuestions] = useState<Array<any> | null>(null);
   const fetchQuestions = async () => {
     try {
-      const response = await axios.get("http://localhost:3010/questions/");
+      const response = await axios.get(
+        `${process.env.DEFAULT_PATH}/questions/`
+      );
       setQuestions(response.data.questions);
     } catch (err) {
       console.error(err);

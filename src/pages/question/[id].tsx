@@ -17,7 +17,8 @@ type QuestionComponent = {
   createdAt: string;
   title: string;
   tags: string;
-  gained_likes_number: string;
+  gained_likes_number: Array<any>;
+  gained_dislikes_number: Array<any>;
   question_text: string;
   id: string;
 };
@@ -30,6 +31,7 @@ const QuestionId: React.FC<QuestionComponent> = () => {
   const [question, setQuestion] = useState<Array<any> | null>(null);
   const [isModal, setIsModal] = useState(false);
   const [isShowDelete, setiShowDelete] = useState(false);
+  const [modalAlert, setModalAlert] = useState("");
   const router = useRouter();
   const onDeleteShow = () => {
     setiShowDelete(!isShowDelete);
@@ -39,9 +41,12 @@ const QuestionId: React.FC<QuestionComponent> = () => {
     authorization: cookie.get("jwttoken"),
   };
   const fetchQuestion = async (id: string) => {
-    const response = await axios.get(`http://localhost:3010/questions/${id}`, {
-      headers,
-    });
+    const response = await axios.get(
+      `${process.env.DEFAULT_PATH}/questions/${id}`,
+      {
+        headers,
+      }
+    );
     setQuestion(response.data.questionAnswer[0]);
   };
   const inputRegex = /^\S.{5,}/;
@@ -74,22 +79,30 @@ const QuestionId: React.FC<QuestionComponent> = () => {
       };
 
       const response = await axios.delete(
-        `http://localhost:3010/questions/${router.query.id}`,
+        `${process.env.DEFAULT_PATH}/questions/${router.query.id}`,
         {
           headers,
         }
       );
-      if (response.status === 200) {
-        router.push("/");
-      }
 
-      window.alert("Successfully deleted");
+      if (response.status === 200) {
+        setModalAlert("Successfully deleted. Redirecting...");
+        setTimeout(() => {
+          router.push("/");
+          setIsModal(false);
+          setModalAlert("");
+        }, 1000);
+      }
     } catch (err) {
       // @ts-ignore
       if (err.response.status === 401) {
-        setIsModal(false);
-        window.alert("You have no rights to delete this comment");
-        return false;
+        setModalAlert("You have no rights to delete this comment");
+        setTimeout(() => {
+          setIsModal(false);
+          setModalAlert("");
+        }, 1000);
+      } else {
+        console.error(err);
       }
     }
   };
@@ -106,7 +119,7 @@ const QuestionId: React.FC<QuestionComponent> = () => {
           authorization: cookie.get("jwttoken"),
         };
         const response = await axios.post(
-          `http://localhost:3010/questions/${router.query.id}/answers`,
+          `${process.env.DEFAULT_PATH}/questions/${router.query.id}/answers`,
           body,
           { headers }
         );
@@ -155,11 +168,14 @@ const QuestionId: React.FC<QuestionComponent> = () => {
 
                 {question ? (
                   <>
-                    {console.log(question)}
-                    <footer className="flex mb-2 relative">
-                      <div className="lg:flex justify-between w-full bg-indigo-100 p-2 items-center">
+                    <footer className="flex mb-2 relative p">
+                      <div className="lg:flex justify-between w-full bg-indigo-100 p-2 px-4 items-center">
                         <div>
                           <div>
+                            <div className="pb-3">
+                              <span>Replied:</span>(
+                              {question.answers_data.length})
+                            </div>
                             {question.user_data &&
                               question.user_data.map((user: any) => (
                                 <div key={user.id}>
@@ -176,10 +192,6 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                           </div>
                           <div className="pt-2">
                             <h2>Title: {question.title}</h2>
-                            <h4>
-                              <span>Replied:</span>(
-                              {question.answers_data.length})
-                            </h4>
                           </div>
                         </div>
                         <div>
@@ -226,7 +238,7 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                                       onClick={() => setIsModal(true)}
                                       className="block py-2 px-4 hover:bg-gray-100 cursor-pointer"
                                     >
-                                      Remove
+                                      Delete
                                     </a>
                                   </li>
                                 </ul>
@@ -240,6 +252,7 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                       <Modal
                         onConfirm={() => onDelete(question.id)}
                         onCancel={() => setIsModal(false)}
+                        modalAlert={modalAlert}
                       />
                     )}
                     <div className="p-3">

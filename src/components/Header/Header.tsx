@@ -1,12 +1,12 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState } from "react";
-import DesktopNavBar from "../DesktopNavBar/DesktopNavBar";
-import MobileNavBar from "../MobileNavBar/MobileNavBar";
+import DesktopNavBar from "./DesktopNavBar/DesktopNavBar";
+import MobileNavBar from "./MobileNavBar/MobileNavBar";
 import Logo from "../Logo/Logo";
-import UserNavBar from "../UserNavbar/UserNavBar";
+import UserNavBar from "./UserNavbar/UserNavBar";
 
 const Header = () => {
-  const [showMobile, setShowMobile] = useState(null);
+  const [showMobile, setShowMobile] = useState<Boolean | null>(null);
   const onShoMobile = () => {
     setShowMobile(!showMobile);
   };

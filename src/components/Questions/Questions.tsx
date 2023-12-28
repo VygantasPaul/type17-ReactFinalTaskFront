@@ -18,17 +18,27 @@ const Questions = ({ question }) => {
         <div className="p-3 flex w-full justify-between items-center">
           <div>
             <div>
-              <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
-                <img
-                  className="mr-2 w-6 h-6 rounded-full"
-                  src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png"
-                  alt="User"
-                ></img>
-                User
-              </p>
-            </div>
-            <div className="pt-3">
-              <h2>Title: {question.title}</h2>
+              <div>
+                <div className="pb-3">
+                  <span>Replied:</span>({question.answers_data.length})
+                </div>
+                {question.user_data &&
+                  question.user_data.map((user: any) => (
+                    <div key={user.id}>
+                      <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
+                        <img
+                          className="mr-2 w-6 h-6 rounded-full"
+                          src={user.avatar}
+                          alt={user.name}
+                        ></img>
+                        {user.name}
+                      </p>
+                    </div>
+                  ))}
+              </div>
+              <div className="pt-2">
+                <h2>Title: {question.title}</h2>
+              </div>
             </div>
           </div>
           <div>

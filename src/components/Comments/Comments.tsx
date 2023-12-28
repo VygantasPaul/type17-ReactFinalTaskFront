@@ -7,7 +7,6 @@ import CommentHeader from "./CommentsHeader/CommentsHeader";
 import AnsweredComments from "./AnsweredComments/AnsweredComments";
 import UnAnsweredComments from "./UnAnsweredComments/UnAnsweredComments";
 import AllComments from "./AllComments/AllComments";
-import styles from "./Comments.module.css";
 import Form from "./AddQuestionForm/AddQuestionForm";
 type CommentsType = {
   comments: Array<any> | null;
@@ -53,9 +52,6 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
       return false;
     } else if (!inputRegex.test(questionField)) {
       setAlert("Question field should be atleat 5 letters ");
-      return false;
-    } else if (!inputRegex.test(tagsField)) {
-      setAlert("Tags field should be atleat 5 letters ");
       return false;
     } else {
       setAlert("Comment added successfully");
@@ -130,7 +126,7 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
                   <a
                     onClick={allToShow}
                     className={`inline-block p-4 border-b-2 hover:text-red-300  rounded-t-lg border-transparent hover:text-red-500 hover:border-red-500 cursor-pointer ${
-                      isShowAll ? `${styles.active}` : ""
+                      isShowAll ? `border-red-500 border-b-2 text-red-500` : ""
                     }`}
                   >
                     All
@@ -140,7 +136,9 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
                   <a
                     onClick={answeredToShow}
                     className={`inline-block p-4  border-b-2 hover:text-red-300 rounded-t-lg border-transparent hover:text-red-500 hover:border-red-500 cursor-pointer ${
-                      isShowAnswered ? `${styles.active}` : ""
+                      isShowAnswered
+                        ? `border-red-500 border-b-2 text-red-500`
+                        : ""
                     }`}
                   >
                     Answered
@@ -150,7 +148,9 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
                   <a
                     onClick={unansweredToShow}
                     className={`inline-block p-4 border-b-2  rounded-t-lg border-transparent  hover:text-red-500 hover:border-red-500 hover:border-red-300 cursor-pointer ${
-                      isShowUnAnswered ? `${styles.active}` : ""
+                      isShowUnAnswered
+                        ? `border-red-500 border-b-2 text-red-500`
+                        : ""
                     }`}
                   >
                     Unanswered

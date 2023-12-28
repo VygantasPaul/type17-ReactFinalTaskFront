@@ -17,31 +17,39 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
   const [isShowDelete, setiShowDelete] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isModal, setIsModal] = useState(false);
+  const [modalAlert, setModalAlert] = useState("");
   const router = useRouter();
+  const headers = {
+    authorization: cookie.get("jwttoken"),
+  };
   const onDelete = async (id: string) => {
     try {
-      const headers = {
-        authorization: cookie.get("jwttoken"),
-      };
-
       const response = await axios.delete(
-        `http://localhost:3010/answers/${id}`,
+        `${process.env.DEFAULT_PATH}/answers/${id}`,
         {
           headers,
         }
       );
 
       if (response.status === 200) {
-        router.reload();
-        setIsModal(false);
-        window.alert("Answer deleted successfully");
+        console.log(router.query.id);
+        setModalAlert("Successfully deleted. Redirecting...");
+        setTimeout(() => {
+          router.push(`${process.env.LOCAL_HOST}/question/${router.query.id}`);
+          setIsModal(false);
+          setModalAlert("");
+        }, 1000);
       }
     } catch (err) {
+      // @ts-ignore
       if (err.response.status === 401) {
-        console.log(err);
-        setIsModal(false);
-        window.alert("You have no rights to delete this comment");
-        return false;
+        setModalAlert("You have no rights to delete this comment");
+        setTimeout(() => {
+          setIsModal(false);
+          setModalAlert("");
+        }, 1000);
+      } else {
+        console.error(err);
       }
     }
   };
@@ -57,14 +65,14 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
     }
   }, []);
 
-  const onClickLike = async (id: number) => {
+  const onClickLike = async (id: string) => {
+    const headers = {
+      authorization: cookie.get("jwttoken"),
+    };
     try {
-      const headers = {
-        authorization: cookie.get("jwttoken"),
-      };
-
       const response = await axios.post(
-        `http://localhost:3010/answers/${id}/like`,
+        `${process.env.DEFAULT_PATH}/answers/${id}/like`,
+        {},
         {
           headers,
         }
@@ -75,20 +83,23 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
         router.reload();
       }
     } catch (err) {
+      if (err.response.status === 401) {
+        console.error(err);
+      }
+      if (err.response.status === 400) {
+        window.alert("You cannot vote twice");
+      }
       if (err.response.status === 500) {
         window.alert("Error");
+        console.error(err);
       }
-      console.error(err);
     }
   };
-  const onClickDislike = async (id: number) => {
+  const onClickDislike = async (id: string) => {
     try {
-      const headers = {
-        authorization: cookie.get("jwttoken"),
-      };
-
       const response = await axios.post(
-        `http://localhost:3010/answers/${id}/dislike`,
+        `${process.env.DEFAULT_PATH}/answers/${id}/dislike`,
+        {},
         {
           headers,
         }
@@ -99,10 +110,12 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
         router.reload();
       }
     } catch (err) {
-      if (err.response.status === 500) {
-        window.alert("Error");
+      if (err.response.status === 400) {
+        window.alert("You cannot vote twice");
       }
-      console.error(err);
+      if (err.response.status === 500 || err.response.status === 401) {
+        console.error(err);
+      }
     }
   };
   return (
@@ -161,7 +174,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
                         onClick={() => setIsModal(answer.id)}
                         className="block py-2 px-4 hover:bg-gray-100 cursor-pointer"
                       >
-                        Remove
+                        Delete
                       </a>
                     </li>
                   </ul>
@@ -175,6 +188,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
         <Modal
           onConfirm={() => onDelete(answer.id)}
           onCancel={() => setIsModal(false)}
+          modalAlert={modalAlert}
         />
       )}
       <p className="text-gray-500 ">{answer.answer_text}</p>

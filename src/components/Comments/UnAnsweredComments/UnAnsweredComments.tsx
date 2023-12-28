@@ -26,7 +26,7 @@ const UnansweredComments = () => {
           .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
           .map((comment) => (
             <div className="comments_wrap" key={comment.id}>
-              <Comment key={comment.id} comment={comment} />
+              <Comment comment={comment} />
             </div>
           ))}
     </>

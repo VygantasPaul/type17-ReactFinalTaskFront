@@ -1,9 +1,17 @@
 import React from "react";
-
-const LikesDislikes = ({ answer, onLike, onDislike }) => {
+type LikesDislikesType = {
+  answer: string | null;
+  onLike: () => void;
+  onDislike: () => void;
+};
+const LikesDislikes: React.FC<LikesDislikesType> = ({
+  answer,
+  onLike,
+  onDislike,
+}) => {
   return (
     <>
-      <div className="flex gap-2 py-3 lg:py-0">
+      <div className="flex gap-2 py-3 lg:py-0 text-lg">
         <svg
           onClick={onLike}
           xmlns="http://www.w3.org/2000/svg"
@@ -11,7 +19,6 @@ const LikesDislikes = ({ answer, onLike, onDislike }) => {
           viewBox="0 0 24 24"
           strokeWidth="1.5"
           stroke="currentColor"
-          data-slot="icon"
           // eslint-disable-next-line react/jsx-no-duplicate-props
           className={`w-6 h-6 cursor-pointer`}
         >
@@ -22,7 +29,32 @@ const LikesDislikes = ({ answer, onLike, onDislike }) => {
           />
         </svg>
 
-        <span>{answer.gained_likes_number}</span>
+        <span>
+          {answer.gained_likes_number && (
+            <span
+              className={`font-semibold ${
+                answer.gained_likes_number.length > 0 ? "text-green-500" : ""
+              }`}
+            >
+              {answer.gained_likes_number.length > 0
+                ? `+${answer.gained_likes_number.length}`
+                : "0"}
+            </span>
+          )}
+        </span>
+        <span>
+          {answer.gained_dislikes_number && (
+            <span
+              className={`font-semibold ${
+                answer.gained_dislikes_number.length > 0 ? "text-red-500" : ""
+              }`}
+            >
+              {answer.gained_dislikes_number.length > 0
+                ? `-${answer.gained_dislikes_number.length}`
+                : "0"}
+            </span>
+          )}
+        </span>
 
         <svg
           onClick={onDislike}
@@ -31,7 +63,6 @@ const LikesDislikes = ({ answer, onLike, onDislike }) => {
           viewBox="0 0 24 24"
           strokeWidth="1.5"
           stroke="currentColor"
-          data-slot="icon"
           className="w-6 h-6 cursor-pointer"
         >
           <path

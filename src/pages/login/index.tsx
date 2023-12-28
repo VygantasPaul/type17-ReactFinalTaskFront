@@ -3,9 +3,6 @@ import AddTemplate from "@/components/PageTemplate/AddTemplate";
 import React, { useState } from "react";
 import cookie from "js-cookie";
 import axios from "axios";
-import Input from "@/components/Input/Input";
-import Button from "@/components/Button/Button";
-import Alerts from "@/components/Alerts/Alerts";
 import { useRouter } from "next/router";
 import LoginForm from "@/components/Users/LoginForm/LoginForm";
 
@@ -38,7 +35,7 @@ const Login = () => {
         };
         setLoading(true);
         const response = await axios.post(
-          "http://localhost:3010/users/login",
+          `${process.env.DEFAULT_PATH}/users/login`,
           body
         );
         cookie.set("jwttoken", response.data.token);
@@ -49,7 +46,7 @@ const Login = () => {
             router.push("/");
           }, 1000);
 
-          setAlert("User logged in");
+          setAlert("User logged in. Redirecting....");
         }
       }
     } catch (err) {

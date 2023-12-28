@@ -5,11 +5,11 @@ import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
 type AddQuestionType = {
   titleField: string | null;
-  setTitleField: React.Dispatch<React.SetStateAction<string>>;
+  setTitleField: (titleField: string) => void;
   questionField: string | null;
-  setQuestionField: React.Dispatch<React.SetStateAction<string>>;
+  setQuestionField: (questionField: string) => void;
   tagsField: string;
-  setTagsField: React.Dispatch<React.SetStateAction<string>>;
+  setTagsField: (tagsField: string) => void;
   isLoading: boolean;
   onAddComment: () => void;
   alert: string;
