@@ -40,10 +40,11 @@ const Form: React.FC<AddQuestionType> = ({
       />
       <Textarea
         label="Question"
-        labelClassName={`block text-sm font-medium leading-6 text-gray-900`}
+        labelClassName={`block text-sm font-medium leading-6 text-gray-900 mb-2`}
         value={String(questionField)}
         setValue={setQuestionField}
         placeholder={`Type question`}
+        className={`w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none`}
         id="question"
       />
       <Input

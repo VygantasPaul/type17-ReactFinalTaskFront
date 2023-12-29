@@ -7,7 +7,7 @@ const Questions = ({ question }) => {
   }
   const tagsString = question.tags;
 
-  const renderedTags = tagsString.split(",").map((tag, index) => (
+  const renderedTags = tagsString.map((tag, index) => (
     <span key={index} className="text-xs mr-1">
       <div className="bg-indigo-100 p-1 inline "> {tag}</div> ,
     </span>

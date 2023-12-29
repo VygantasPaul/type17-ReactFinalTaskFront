@@ -4,11 +4,13 @@ import cookie from "js-cookie";
 import axios from "axios";
 import { useRouter } from "next/router";
 import Modal from "@/components/Modal/Modal";
+import ModalLikesAlert from "@/components/Modal/ModalLikesAlert";
 import LikesDislikes from "../LikesDislikes/LikesDislikes";
 type AnswerComponent = {
   createdAt: string;
   answer_text: number;
   id: string;
+  user_data: string;
 };
 type AnswerType = {
   answer: Array<AnswerComponent> | null;
@@ -17,7 +19,9 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
   const [isShowDelete, setiShowDelete] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [isModal, setIsModal] = useState(false);
+  const [isModalLike, setIsModalLike] = useState(false);
   const [modalAlert, setModalAlert] = useState("");
+  const [modalLikesAlert, setModalLikesAlert] = useState("");
   const router = useRouter();
   const headers = {
     authorization: cookie.get("jwttoken"),
@@ -37,7 +41,6 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
         setTimeout(() => {
           router.push(`${process.env.LOCAL_HOST}/question/${router.query.id}`);
           setIsModal(false);
-          setModalAlert("");
         }, 1000);
       }
     } catch (err) {
@@ -46,7 +49,6 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
         setModalAlert("You have no rights to delete this comment");
         setTimeout(() => {
           setIsModal(false);
-          setModalAlert("");
         }, 1000);
       } else {
         console.error(err);
@@ -79,18 +81,21 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
       );
 
       if (response.status === 200) {
-        window.alert("Thank you for your vote");
-        router.reload();
+        setIsModalLike(true);
+        setModalLikesAlert("Thank you for your vote.");
       }
     } catch (err) {
+      // @ts-ignore
       if (err.response.status === 401) {
         console.error(err);
       }
+      // @ts-ignore
       if (err.response.status === 400) {
-        window.alert("You cannot vote twice");
+        setIsModalLike(true);
+        setModalLikesAlert("You already have been vooted. ");
       }
+      // @ts-ignore
       if (err.response.status === 500) {
-        window.alert("Error");
         console.error(err);
       }
     }
@@ -106,29 +111,36 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
       );
 
       if (response.status === 200) {
-        window.alert("Thank you for your vote");
-        router.reload();
+        setIsModalLike(true);
+        setModalLikesAlert("Thank you for your vote. ");
       }
     } catch (err) {
+      // @ts-ignore
       if (err.response.status === 400) {
-        window.alert("You cannot vote twice");
+        setIsModalLike(true);
+        setModalLikesAlert("You already have been vooted.");
       }
+      // @ts-ignore
       if (err.response.status === 500 || err.response.status === 401) {
         console.error(err);
       }
     }
   };
   return (
-    <article className="p-6 mb-3 ml-6 lg:ml-12 text-base bg-white rounded-lg ">
+    <article className="p-6 ml-6 lg:ml-12 text-base bg-white rounded-lg ">
       <footer className="flex justify-between items-center mb-2 relative">
         <div className="lg:flex items-center justify-between w-full bg-indigo-100 p-2">
-          <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
-            <img
-              className="mr-2 w-6 h-6 rounded-full"
-              src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png"
-              alt="User"
-            ></img>
-            User
+          <p className="inline-flex items-center mr-3 text-sm text-gray-900 px-2 font-semibold">
+            <div>
+              <p className="lg:flex items-center mr-3 text-sm text-gray-900  font-semibold">
+                <img
+                  className="mr-2 w-6 h-6 rounded-full"
+                  src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png"
+                  alt=""
+                ></img>
+                <span>User</span>
+              </p>
+            </div>
           </p>
           {isLoggedIn && (
             <LikesDislikes
@@ -139,7 +151,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
           )}
 
           <p className="text-sm text-gray-600 dark:text-gray-600 pb-3 lg:pb-0">
-            <time title="February 12th, 2022">
+            <time>
               {new Date(answer.createdAt).toLocaleString("en-US", {
                 year: "numeric",
                 month: "short",
@@ -189,6 +201,15 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
           onConfirm={() => onDelete(answer.id)}
           onCancel={() => setIsModal(false)}
           modalAlert={modalAlert}
+        />
+      )}
+      {isModalLike && (
+        <ModalLikesAlert
+          modalLikesAlert={modalLikesAlert}
+          onCancel={() => {
+            setIsModalLike(false);
+            router.reload();
+          }}
         />
       )}
       <p className="text-gray-500 ">{answer.answer_text}</p>

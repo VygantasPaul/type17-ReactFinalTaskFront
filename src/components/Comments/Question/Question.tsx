@@ -4,11 +4,12 @@ import Link from "next/link";
 type CommentComponent = {
   user_data: Array<any>;
   answers_data: Array<any>;
-  tags: any;
+  tags: string;
   createdAt: string;
   gained_likes_number: Array<any>;
   gained_dislikes_number: Array<any>;
   question_text: string;
+  title: string;
   id: string;
 };
 type CommentType = {
@@ -18,13 +19,14 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
   if (!comment.tags) {
     return null;
   }
-  const tagsString = comment.tags;
+  const tagsArray = comment.tags;
 
-  const renderedTags = tagsString.split(",").map((tag, index) => (
+  const renderedTags = tagsArray.map((tag, index) => (
     <span key={index} className="text-xs mr-1">
-      <div className="bg-indigo-100 p-1 inline "> {tag}</div> ,
+      <div className="bg-indigo-100 p-1 inline">{tag}</div>,
     </span>
   ));
+
   return (
     <Link href={`/question/${comment.id}`} className="py-6 text-base bg-white ">
       <footer className="border-b-2 border-indigo-500 mb-2 relative ">
@@ -44,7 +46,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
                         <img
                           className="mr-2 w-6 h-6 rounded-full"
                           src={user.avatar}
-                          alt="User"
+                          alt={user.name}
                         ></img>
                         {user.name}
                       </p>
@@ -57,7 +59,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
             </div>
             <div>
               <p className="text-sm text-gray-600 dark:text-gray-600">
-                <time title="February 8th, 2022">
+                <time>
                   {new Date(comment.createdAt).toLocaleString("en-US", {
                     year: "numeric",
                     month: "short",
@@ -71,7 +73,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
           </div>
         </div>
         <div className="p-3">
-          <p className="text-gray-500 ">{comment.question_text}</p>
+          <p className="text-gray-500">{comment.question_text}</p>
         </div>
         <div className="p-3">
           <span>Tags:</span> {renderedTags}

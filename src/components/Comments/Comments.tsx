@@ -73,7 +73,7 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
           authorization: cookie.get("jwttoken"),
         };
         const response = await axios.post(
-          "http://localhost:3010/questions/",
+          `${process.env.DEFAULT_PATH}/questions/`,
           body,
           { headers }
         );

@@ -1,59 +1,20 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
 import LikesDislikes from "@/components/Comments/LikesDislikes/LikesDislikes";
+import ModalLikesAlert from "@/components/Modal/ModalLikesAlert";
 import cookie from "js-cookie";
 import axios from "axios";
 import { useRouter } from "next/router";
-const Answers = ({ answer }) => {
+type AnswerComponent = {
+  answer: string;
+};
+const Answers: React.FC<AnswerComponent> = ({ answer }) => {
   const router = useRouter();
   const [isLoggedIn, setLoggedIn] = useState(false);
-  const onClickLike = async (id: number) => {
-    try {
-      const headers = {
-        authorization: cookie.get("jwttoken"),
-      };
-
-      const response = await axios.post(
-        `http://localhost:3010/answers/${id}/like`,
-        {
-          headers,
-        }
-      );
-
-      if (response.status === 200) {
-        window.alert("Thank you for your vote");
-        router.reload();
-      }
-    } catch (err) {
-      if (err.response.status === 500) {
-        window.alert("Error");
-      }
-      console.error(err);
-    }
-  };
-  const onClickDislike = async (id: number) => {
-    try {
-      const headers = {
-        authorization: cookie.get("jwttoken"),
-      };
-
-      const response = await axios.post(
-        `http://localhost:3010/answers/${id}/dislike`,
-        {
-          headers,
-        }
-      );
-
-      if (response.status === 200) {
-        window.alert("Thank you for your vote");
-        router.reload();
-      }
-    } catch (err) {
-      if (err.response.status === 500) {
-        window.alert("Error");
-      }
-      console.error(err);
-    }
+  const [isModalLike, setIsModalLike] = useState(false);
+  const [modalLikesAlert, setModalLikesAlert] = useState("");
+  const headers = {
+    authorization: cookie.get("jwttoken"),
   };
   useEffect(() => {
     const cookieLogged = cookie.get("jwttoken");
@@ -63,6 +24,61 @@ const Answers = ({ answer }) => {
       setLoggedIn(false);
     }
   }, []);
+  const onClickLike = async (id: string) => {
+    const headers = {
+      authorization: cookie.get("jwttoken"),
+    };
+    try {
+      const response = await axios.post(
+        `${process.env.DEFAULT_PATH}/answers/${id}/like`,
+        {},
+        {
+          headers,
+        }
+      );
+
+      if (response.status === 200) {
+        setIsModalLike(true);
+        setModalLikesAlert("Thank you for your vote.");
+      }
+    } catch (err) {
+      if (err.response.status === 401) {
+        console.error(err);
+      }
+      if (err.response.status === 400) {
+        setIsModalLike(true);
+        setModalLikesAlert("You already have been vooted. ");
+      }
+      if (err.response.status === 500) {
+        console.error(err);
+      }
+    }
+  };
+  const onClickDislike = async (id: string) => {
+    try {
+      const response = await axios.post(
+        `${process.env.DEFAULT_PATH}/answers/${id}/dislike`,
+        {},
+        {
+          headers,
+        }
+      );
+
+      if (response.status === 200) {
+        setIsModalLike(true);
+        setModalLikesAlert("Thank you for your vote. ");
+      }
+    } catch (err) {
+      if (err.response.status === 400) {
+        setIsModalLike(true);
+        setModalLikesAlert("You already have been vooted.");
+      }
+      if (err.response.status === 500 || err.response.status === 401) {
+        console.error(err);
+      }
+    }
+  };
+
   return (
     <article className="text-base bg-white rounded-lg ">
       <footer className="flex  mb-2 relative ">
@@ -95,6 +111,17 @@ const Answers = ({ answer }) => {
           </p>
         </div>
       </footer>
+      <>
+        {isModalLike && (
+          <ModalLikesAlert
+            modalLikesAlert={modalLikesAlert}
+            onCancel={() => {
+              setIsModalLike(false);
+              router.reload();
+            }}
+          />
+        )}
+      </>
       <div className="p-3">
         <p className="text-gray-500 ">{answer.answer_text}</p>
       </div>

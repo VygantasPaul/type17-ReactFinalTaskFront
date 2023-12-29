@@ -137,22 +137,24 @@ const QuestionId: React.FC<QuestionComponent> = () => {
       }
     }
   };
+
   return (
     <div>
       <PageTemplate>
         <div className="comments_wrap">
           <div className="lg:container ">
-            <section className="bg-white py-8 lg:py-16 ">
-              <div className="max-w-6xl mx-auto px-4  pb-3">
+            <section className="bg-white py-8 lg:py-16 relative">
+              <div className="max-w-6xl mx-auto px-4  pb-3 ">
                 <CommentHeader text="Question" commentCount={false} />
                 {isLoggedIn && (
                   <form className="mb-6">
                     <Textarea
-                      label={false}
+                      label={null}
                       labelClassName={`block text-sm font-medium leading-6 text-gray-900`}
                       value={String(answerField)}
                       setValue={setAnswerField}
                       id="question"
+                      className={`w-full text-sm text-gray-900 border-0 focus:ring-0 focus:outline-none`}
                       placeholder={`Type answer`}
                     />
 
@@ -167,7 +169,7 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                 )}
 
                 {question ? (
-                  <>
+                  <div key={question.id}>
                     <footer className="flex mb-2 relative p">
                       <div className="lg:flex justify-between w-full bg-indigo-100 p-2 px-4 items-center">
                         <div>
@@ -261,7 +263,7 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                     <div>
                       <div className="border-b-2 border-indigo-500 pb-2">
                         <span className="pr-1">Tags:</span>
-                        {question.tags.split(",").map((tag, index) => (
+                        {question.tags.map((tag, index) => (
                           <span key={index} className="text-xs mr-1">
                             <div className="bg-indigo-100 p-1 inline">
                               {tag.trim()}
@@ -271,11 +273,14 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                         ))}
                       </div>
                     </div>
-                    {question.answers_data &&
+                    {question.answers_data && question.answers_data.length ? (
                       question.answers_data.map((answer: any) => (
                         <Answer answer={answer} key={answer.id} />
-                      ))}
-                  </>
+                      ))
+                    ) : (
+                      <div className="p-3">No records</div>
+                    )}
+                  </div>
                 ) : (
                   <p>
                     <Spinner />
