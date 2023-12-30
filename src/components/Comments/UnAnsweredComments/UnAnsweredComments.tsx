@@ -1,7 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Comment from "@/components/Comments/Question/Question";
 import axios from "axios";
-const UnansweredComments = () => {
+type AnsweredCommentsType = {
+  comments: any[] | null;
+};
+const UnansweredComments: React.FC<AnsweredCommentsType> = () => {
   const [unansweredData, setUnAnswereDData] = useState<Array<any> | null>(null);
   const fetchUnAnswered = async () => {
     try {
@@ -11,6 +14,7 @@ const UnansweredComments = () => {
       setUnAnswereDData(response.data.questionNoAnswers);
       console.log(response.data.questionNoAnswers);
     } catch (err) {
+      // @ts-ignore
       if (err.response.status === 404) {
         console.error(err);
       }

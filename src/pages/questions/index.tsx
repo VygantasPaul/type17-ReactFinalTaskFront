@@ -40,6 +40,12 @@ const Questions = () => {
                           <QuestionsComponent
                             question={question}
                             key={question.id}
+                            question_text={""}
+                            tags={[]}
+                            answers_data={[]}
+                            user_data={[]}
+                            createdAt={""}
+                            title={""}
                           />
                         ))}
                     </>

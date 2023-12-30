@@ -1,5 +1,5 @@
 /* eslint-disable @next/next/no-img-element */
-import React, { useState, useEffect } from "react";
+import React from "react";
 import Link from "next/link";
 type CommentComponent = {
   user_data: Array<any>;
@@ -19,13 +19,15 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
   if (!comment.tags) {
     return null;
   }
-  const tagsArray = comment.tags;
+  const tagsArray: any = comment.tags;
 
-  const renderedTags = tagsArray.map((tag, index) => (
+  const renderedTags = tagsArray.map((tag: any, index: any) => (
     <span key={index} className="text-xs mr-1">
       <div className="bg-indigo-100 p-1 inline">{tag}</div>,
     </span>
   ));
+  const gained_likes = comment.gained_likes_number?.length || 0;
+  const gained_dislikes = comment.gained_dislikes_number?.length || 0;
 
   return (
     <Link href={`/question/${comment.id}`} className="py-6 text-base bg-white ">
@@ -33,32 +35,36 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
         <div className=" w-full bg-indigo-100 hover:bg-indigo-300 p-2 ">
           <div className="px-2 flex justify-between items-center">
             <div>
-              <div>
-                {comment.answers_data && (
-                  <div className="pb-3">
-                    <p>Replyed: ({comment.answers_data.length}) </p>
-                  </div>
-                )}
-                {comment.user_data &&
-                  comment.user_data.map((user: any) => (
-                    <div key={user.id} className="pt-3">
-                      <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
-                        <img
-                          className="mr-2 w-6 h-6 rounded-full"
-                          src={user.avatar}
-                          alt={user.name}
-                        ></img>
-                        {user.name}
-                      </p>
-                    </div>
-                  ))}
-              </div>
-              <div className="pt-3">
-                <h2>Title: {comment.title} </h2>
-              </div>
+              <p>Votes: ({gained_likes + gained_dislikes})</p>
+              {comment.answers_data && (
+                <div className="">
+                  <p>Replyed: ({comment.answers_data.length}) </p>
+                </div>
+              )}
             </div>
             <div>
+              {comment.user_data &&
+                comment.user_data.map((user: any) => (
+                  <div key={user.id} className="pt-3">
+                    <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
+                      <img
+                        className="mr-2 w-6 h-6 rounded-full"
+                        src={user.avatar}
+                        alt={user.name}
+                      ></img>
+                      {user.name}
+                    </p>
+                  </div>
+                ))}
+            </div>
+            <div className="">
+              <h2>Title: {comment.title} </h2>
+            </div>
+            <div></div>
+            <div></div>
+            <div>
               <p className="text-sm text-gray-600 dark:text-gray-600">
+                <span>Created: </span>
                 <time>
                   {new Date(comment.createdAt).toLocaleString("en-US", {
                     year: "numeric",

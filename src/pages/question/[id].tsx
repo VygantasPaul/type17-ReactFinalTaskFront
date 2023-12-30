@@ -12,8 +12,27 @@ import CommentHeader from "@/components/Comments/CommentsHeader/CommentsHeader";
 import Textarea from "@/components/Textarea/Textarea";
 import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
+import VoteBoxId from "@/components/Comments/LikesDislikes/VoteBoxId";
 
-type QuestionComponent = {
+import ModalLikesAlert from "@/components/Modal/ModalLikesAlert";
+
+interface User {
+  id: string;
+  name: string;
+  avatar: string;
+}
+
+interface AnswerData {
+  id: string;
+  question_id: string;
+  user_id: string;
+  answer_text: string;
+  gained_likes_number: any[];
+  gained_dislikes_number: any[];
+  user_data: User[];
+}
+
+interface Question {
   createdAt: string;
   title: string;
   tags: string;
@@ -21,16 +40,20 @@ type QuestionComponent = {
   gained_dislikes_number: Array<any>;
   question_text: string;
   id: string;
-};
+  answers_data: AnswerData[]; // Update this line
+  user_data: User[];
+}
 
-const QuestionId: React.FC<QuestionComponent> = () => {
+const QuestionId: React.FC<Question> = () => {
   const [isLoading, setLoading] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [alert, setAlert] = useState<string>("");
   const [answerField, setAnswerField] = useState<string>("");
   const [question, setQuestion] = useState<Array<any> | null>(null);
   const [isModal, setIsModal] = useState(false);
+  const [isModalLike, setIsModalLike] = useState(false);
   const [isShowDelete, setiShowDelete] = useState(false);
+  const [modalLikesAlert, setModalLikesAlert] = useState("");
   const [modalAlert, setModalAlert] = useState("");
   const router = useRouter();
   const onDeleteShow = () => {
@@ -61,16 +84,6 @@ const QuestionId: React.FC<QuestionComponent> = () => {
       return true;
     }
   };
-
-  useEffect(() => {
-    const cookieLogged = cookie.get("jwttoken");
-    if (cookieLogged) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-    router.query.id && fetchQuestion(router.query.id);
-  }, [router.query]);
 
   const onDelete = async () => {
     try {
@@ -138,6 +151,76 @@ const QuestionId: React.FC<QuestionComponent> = () => {
     }
   };
 
+  const onClickLike = async (id: string) => {
+    const headers = {
+      authorization: cookie.get("jwttoken"),
+    };
+    try {
+      const response = await axios.post(
+        `${process.env.DEFAULT_PATH}/questions/${id}/like`,
+        {},
+        {
+          headers,
+        }
+      );
+
+      if (response.status === 200) {
+        setIsModalLike(true);
+        setModalLikesAlert("Thank you for your vote.");
+      }
+    } catch (err) {
+      // @ts-ignore
+      if (err.response.status === 401) {
+        console.error(err);
+      }
+      // @ts-ignore
+      if (err.response.status === 400) {
+        setIsModalLike(true);
+        setModalLikesAlert("You already have been vooted. ");
+      }
+      // @ts-ignore
+      if (err.response.status === 500) {
+        console.error(err);
+      }
+    }
+  };
+  const onClickDislike = async (id: string) => {
+    try {
+      const response = await axios.post(
+        `${process.env.DEFAULT_PATH}/questions/${id}/dislike`,
+        {},
+        {
+          headers,
+        }
+      );
+
+      if (response.status === 200) {
+        setIsModalLike(true);
+        setModalLikesAlert("Thank you for your vote. ");
+      }
+    } catch (err) {
+      // @ts-ignore
+      if (err.response.status === 400) {
+        setIsModalLike(true);
+        setModalLikesAlert("You already have been vooted.");
+      }
+      // @ts-ignore
+      if (err.response.status === 500 || err.response.status === 401) {
+        console.error(err);
+      }
+    }
+  };
+  useEffect(() => {
+    const cookieLogged = cookie.get("jwttoken");
+    if (cookieLogged) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+    router.query.id && fetchQuestion(router.query.id);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [router.query]);
+
   return (
     <div>
       <PageTemplate>
@@ -169,41 +252,46 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                 )}
 
                 {question ? (
-                  <div key={question.id}>
+                  <div>
                     <footer className="flex mb-2 relative p">
-                      <div className="lg:flex justify-between w-full bg-indigo-100 p-2 px-4 items-center">
+                      <div className="lg:flex justify-between w-full bg-indigo-100 p-2  items-center">
+                        <VoteBoxId
+                          question={question}
+                          onLike={() => onClickLike(question.id)}
+                          onDislike={() => onClickDislike(question.id)}
+                        />
                         <div>
-                          <div>
-                            <div className="pb-3">
-                              <span>Replied:</span>(
-                              {question.answers_data.length})
-                            </div>
-                            {question.user_data &&
-                              question.user_data.map((user: any) => (
-                                <div key={user.id}>
-                                  <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
-                                    <img
-                                      className="mr-2 w-6 h-6 rounded-full"
-                                      src={user.avatar}
-                                      alt={user.name}
-                                    ></img>
-                                    {user.name}
-                                  </p>
-                                </div>
-                              ))}
-                          </div>
-                          <div className="pt-2">
-                            <h2>Title: {question.title}</h2>
-                          </div>
+                          <span>Replied:</span>({question.answers_data.length})
                         </div>
+
+                        {question.user_data &&
+                          // @ts-ignore
+                          question.user_data.map((user: any) => (
+                            <div key={user.id}>
+                              <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
+                                <img
+                                  className="mr-2 w-6 h-6 rounded-full"
+                                  src={user.avatar}
+                                  alt={user.name}
+                                ></img>
+                                {user.name}
+                              </p>
+                            </div>
+                          ))}
+
+                        <div className="">
+                          <h2>Title: {question.title}</h2>
+                        </div>
+
                         <div>
                           <p className="text-sm text-gray-600 dark:text-gray-600 pb-3 lg:pb-0">
-                            <time title="February 8th, 2022">
+                            <span>Created: </span>
+                            <time>
                               {new Date(question.createdAt).toLocaleString(
                                 "en-US",
                                 {
                                   year: "numeric",
-                                  month: "long",
+                                  month: "short",
                                   day: "numeric",
                                   hour: "numeric",
                                   minute: "numeric",
@@ -252,9 +340,18 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                     </footer>
                     {isModal && (
                       <Modal
-                        onConfirm={() => onDelete(question.id)}
+                        onConfirm={() => onDelete()}
                         onCancel={() => setIsModal(false)}
                         modalAlert={modalAlert}
+                      />
+                    )}
+                    {isModalLike && (
+                      <ModalLikesAlert
+                        modalLikesAlert={modalLikesAlert}
+                        onCancel={() => {
+                          setIsModalLike(false);
+                          router.reload();
+                        }}
                       />
                     )}
                     <div className="p-3">
@@ -263,7 +360,7 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                     <div>
                       <div className="border-b-2 border-indigo-500 pb-2">
                         <span className="pr-1">Tags:</span>
-                        {question.tags.map((tag, index) => (
+                        {question.tags.map((tag: string, index: null) => (
                           <span key={index} className="text-xs mr-1">
                             <div className="bg-indigo-100 p-1 inline">
                               {tag.trim()}
@@ -278,7 +375,7 @@ const QuestionId: React.FC<QuestionComponent> = () => {
                         <Answer answer={answer} key={answer.id} />
                       ))
                     ) : (
-                      <div className="p-3">No records</div>
+                      <div className="p-3">No Comments</div>
                     )}
                   </div>
                 ) : (

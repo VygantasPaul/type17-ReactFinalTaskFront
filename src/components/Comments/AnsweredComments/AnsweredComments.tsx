@@ -1,8 +1,10 @@
 import React, { useState, useEffect } from "react";
 import Comment from "@/components/Comments/Question/Question";
 import axios from "axios";
-
-const AnsweredComments = () => {
+type AnsweredCommentsType = {
+  comments: any[] | null;
+};
+const AnsweredComments: React.FC<AnsweredCommentsType> = () => {
   const [answeredData, setAnswereDData] = useState<Array<any> | null>(null);
   const fetchAnswered = async () => {
     try {

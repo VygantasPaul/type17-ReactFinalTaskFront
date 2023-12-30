@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
-import LikesDislikes from "@/components/Comments/LikesDislikes/LikesDislikes";
+import VoteBoxAnswers from "@/components/Comments/LikesDislikes/VoteBoxAnswers";
 import ModalLikesAlert from "@/components/Modal/ModalLikesAlert";
 import cookie from "js-cookie";
 import axios from "axios";
@@ -42,13 +42,16 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
         setModalLikesAlert("Thank you for your vote.");
       }
     } catch (err) {
+      // @ts-ignore
       if (err.response.status === 401) {
         console.error(err);
       }
+      // @ts-ignore
       if (err.response.status === 400) {
         setIsModalLike(true);
         setModalLikesAlert("You already have been vooted. ");
       }
+      // @ts-ignore
       if (err.response.status === 500) {
         console.error(err);
       }
@@ -69,10 +72,12 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
         setModalLikesAlert("Thank you for your vote. ");
       }
     } catch (err) {
+      // @ts-ignore
       if (err.response.status === 400) {
         setIsModalLike(true);
         setModalLikesAlert("You already have been vooted.");
       }
+      // @ts-ignore
       if (err.response.status === 500 || err.response.status === 401) {
         console.error(err);
       }
@@ -83,6 +88,13 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
     <article className="text-base bg-white rounded-lg ">
       <footer className="flex  mb-2 relative ">
         <div className="flex justify-between w-full bg-indigo-100 p-2 items-center">
+          {isLoggedIn && (
+            <VoteBoxAnswers
+              answer={answer}
+              onLike={() => onClickLike(answer.id)}
+              onDislike={() => onClickDislike(answer.id)}
+            />
+          )}
           <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold p-2 ">
             <img
               className="mr-2 w-6 h-6 rounded-full"
@@ -91,18 +103,13 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
             ></img>
             User
           </p>
-          {isLoggedIn && (
-            <LikesDislikes
-              answer={answer}
-              onLike={() => onClickLike(answer.id)}
-              onDislike={() => onClickDislike(answer.id)}
-            />
-          )}
+
           <p className="text-sm text-gray-600 dark:text-gray-400 pb-3 lg:pb-0">
+            <span>Created: </span>
             <time>
               {new Date(answer.createdAt).toLocaleString("en-US", {
                 year: "numeric",
-                month: "long",
+                month: "short",
                 day: "numeric",
                 hour: "numeric",
                 minute: "numeric",

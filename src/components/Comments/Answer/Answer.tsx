@@ -5,7 +5,7 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import Modal from "@/components/Modal/Modal";
 import ModalLikesAlert from "@/components/Modal/ModalLikesAlert";
-import LikesDislikes from "../LikesDislikes/LikesDislikes";
+import VoteBoxAnswers from "../LikesDislikes/VoteBoxAnswers";
 type AnswerComponent = {
   createdAt: string;
   answer_text: number;
@@ -13,7 +13,7 @@ type AnswerComponent = {
   user_data: string;
 };
 type AnswerType = {
-  answer: Array<AnswerComponent> | null;
+  answer: Array<AnswerComponent> | any;
 };
 const Answer: React.FC<AnswerType> = ({ answer }) => {
   const [isShowDelete, setiShowDelete] = useState(false);
@@ -130,7 +130,14 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
     <article className="p-6 ml-6 lg:ml-12 text-base bg-white rounded-lg ">
       <footer className="flex justify-between items-center mb-2 relative">
         <div className="lg:flex items-center justify-between w-full bg-indigo-100 p-2">
-          <p className="inline-flex items-center mr-3 text-sm text-gray-900 px-2 font-semibold">
+          {isLoggedIn && (
+            <VoteBoxAnswers
+              answer={answer}
+              onLike={() => onClickLike(answer.id)}
+              onDislike={() => onClickDislike(answer.id)}
+            />
+          )}
+          <div className="inline-flex items-center mr-3 text-sm text-gray-900 px-2 font-semibold">
             <div>
               <p className="lg:flex items-center mr-3 text-sm text-gray-900  font-semibold">
                 <img
@@ -141,15 +148,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
                 <span>User</span>
               </p>
             </div>
-          </p>
-          {isLoggedIn && (
-            <LikesDislikes
-              answer={answer}
-              onLike={() => onClickLike(answer.id)}
-              onDislike={() => onClickDislike(answer.id)}
-            />
-          )}
-
+          </div>
           <p className="text-sm text-gray-600 dark:text-gray-600 pb-3 lg:pb-0">
             <time>
               {new Date(answer.createdAt).toLocaleString("en-US", {
