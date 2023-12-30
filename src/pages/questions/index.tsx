@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from "react";
 import PageTemplate from "@/components/PageTemplate/PageTemplate";
 import axios from "axios";
-import QuestionsComponent from "@/components/Questions/Questions";
+import QuestionComponent from "@/components/Question/Question";
 import CommentsHeader from "@/components/Comments/CommentsHeader/CommentsHeader";
 import Spinner from "@/components/Spinner/Spinner";
 const Questions = () => {
@@ -37,15 +37,9 @@ const Questions = () => {
                       {questions
                         .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
                         .map((question) => (
-                          <QuestionsComponent
+                          <QuestionComponent
                             question={question}
                             key={question.id}
-                            question_text={""}
-                            tags={[]}
-                            answers_data={[]}
-                            user_data={[]}
-                            createdAt={""}
-                            title={""}
                           />
                         ))}
                     </>

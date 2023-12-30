@@ -57,7 +57,7 @@ const Questions: React.FC<QuestionType> = ({ question }) => {
           <div></div>
           <div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
-              <time title="February 8th, 2022">
+              <time>
                 {new Date(question.createdAt).toLocaleString("en-US", {
                   year: "numeric",
                   month: "short",

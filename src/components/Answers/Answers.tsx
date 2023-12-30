@@ -1,6 +1,6 @@
 /* eslint-disable @next/next/no-img-element */
 import React, { useState, useEffect } from "react";
-import VoteBoxAnswers from "@/components/Comments/LikesDislikes/VoteBoxAnswers";
+import VoteBoxAnswers from "@/components/Comments/VotesBox/VoteBoxAnswers";
 import ModalLikesAlert from "@/components/Modal/ModalLikesAlert";
 import cookie from "js-cookie";
 import axios from "axios";
@@ -86,24 +86,31 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
 
   return (
     <article className="text-base bg-white rounded-lg ">
-      <footer className="flex  mb-2 relative ">
+      <footer className="flex mb-2 relative ">
         <div className="flex justify-between w-full bg-indigo-100 p-2 items-center">
-          {isLoggedIn && (
-            <VoteBoxAnswers
-              answer={answer}
-              onLike={() => onClickLike(answer.id)}
-              onDislike={() => onClickDislike(answer.id)}
-            />
-          )}
-          <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold p-2 ">
-            <img
-              className="mr-2 w-6 h-6 rounded-full"
-              src="https://ps.w.org/user-avatar-reloaded/assets/icon-256x256.png"
-              alt=""
-            ></img>
-            User
-          </p>
+          <div className="lg:flex items-center gap-2">
+            {isLoggedIn && (
+              <VoteBoxAnswers
+                answer={answer}
+                onLike={() => onClickLike(answer.id)}
+                onDislike={() => onClickDislike(answer.id)}
+              />
+            )}
 
+            {answer.user_data &&
+              answer.user_data.map((user: any) => (
+                <div key={user.id}>
+                  <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
+                    <img
+                      className="mr-2 w-6 h-6 rounded-full"
+                      src={user.avatar}
+                      alt={user.name}
+                    ></img>
+                    {user.name}
+                  </p>
+                </div>
+              ))}
+          </div>
           <p className="text-sm text-gray-600 dark:text-gray-400 pb-3 lg:pb-0">
             <span>Created: </span>
             <time>

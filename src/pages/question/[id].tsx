@@ -12,8 +12,7 @@ import CommentHeader from "@/components/Comments/CommentsHeader/CommentsHeader";
 import Textarea from "@/components/Textarea/Textarea";
 import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
-import VoteBoxId from "@/components/Comments/LikesDislikes/VoteBoxId";
-
+import VoteBoxId from "@/components/Comments/VotesBox/VoteBoxId";
 import ModalLikesAlert from "@/components/Modal/ModalLikesAlert";
 
 interface User {
@@ -253,37 +252,42 @@ const QuestionId: React.FC<Question> = () => {
 
                 {question ? (
                   <div>
+                    <div className="flex gap-2">
+                      {question.user_data &&
+                        // @ts-ignore
+                        question.user_data.map((user: any) => (
+                          <div key={user.id}>
+                            <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
+                              <img
+                                className="mr-2 w-6 h-6 rounded-full"
+                                src={user.avatar}
+                                alt={user.name}
+                              ></img>
+                              {user.name}
+                            </p>
+                          </div>
+                        ))}
+                      <div>
+                        <span>Replied:</span>({question.answers_data.length})
+                      </div>
+                    </div>
                     <footer className="flex mb-2 relative p">
                       <div className="lg:flex justify-between w-full bg-indigo-100 p-2  items-center">
-                        <VoteBoxId
-                          question={question}
-                          onLike={() => onClickLike(question.id)}
-                          onDislike={() => onClickDislike(question.id)}
-                        />
-                        <div>
-                          <span>Replied:</span>({question.answers_data.length})
-                        </div>
-
-                        {question.user_data &&
-                          // @ts-ignore
-                          question.user_data.map((user: any) => (
-                            <div key={user.id}>
-                              <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
-                                <img
-                                  className="mr-2 w-6 h-6 rounded-full"
-                                  src={user.avatar}
-                                  alt={user.name}
-                                ></img>
-                                {user.name}
-                              </p>
+                        <div className="flex  items-center">
+                          {isLoggedIn && (
+                            <div>
+                              <VoteBoxId
+                                question={question}
+                                onLike={() => onClickLike(question.id)}
+                                onDislike={() => onClickDislike(question.id)}
+                              />
                             </div>
-                          ))}
-
-                        <div className="">
-                          <h2>Title: {question.title}</h2>
+                          )}
+                          <div className="pl-4">
+                            <h2>Title: {question.title}</h2>
+                          </div>
                         </div>
-
-                        <div>
+                        <div className="flex items-center gap-2">
                           <p className="text-sm text-gray-600 dark:text-gray-600 pb-3 lg:pb-0">
                             <span>Created: </span>
                             <time>
@@ -299,48 +303,50 @@ const QuestionId: React.FC<Question> = () => {
                               )}
                             </time>
                           </p>
-                        </div>
-                        {isLoggedIn && (
-                          <button
-                            onClick={onDeleteShow}
-                            id="dropdownComment1Button"
-                            className="relative  items-center p-2 text-sm font-medium text-center text-gray-500  bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 "
-                            type="button"
-                          >
-                            <svg
-                              className="w-4 h-4"
-                              aria-hidden="true"
-                              xmlns="http://www.w3.org/2000/svg"
-                              fill="currentColor"
-                              viewBox="0 0 16 3"
+
+                          {isLoggedIn && (
+                            <button
+                              onClick={onDeleteShow}
+                              id="dropdownComment1Button"
+                              className="relative  items-center p-2 text-sm font-medium text-center text-gray-500  bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 "
+                              type="button"
                             >
-                              <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
-                            </svg>
-                            <span className="sr-only">Comment settings</span>
-                            {isShowDelete && (
-                              <div className="z-10 w-36 absolute left-0 lg:right-0 -top-10 lg:-top-10 bg-white rounded divide-y divide-gray-100 shadow ">
-                                <ul
-                                  className="py-1 text-sm text-gray-700 "
-                                  aria-labelledby="dropdownMenuIconHorizontalButton"
-                                >
-                                  <li>
-                                    <a
-                                      onClick={() => setIsModal(true)}
-                                      className="block py-2 px-4 hover:bg-gray-100 cursor-pointer"
-                                    >
-                                      Delete
-                                    </a>
-                                  </li>
-                                </ul>
-                              </div>
-                            )}
-                          </button>
-                        )}
+                              <svg
+                                className="w-4 h-4"
+                                aria-hidden="true"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="currentColor"
+                                viewBox="0 0 16 3"
+                              >
+                                <path d="M2 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Zm6.041 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3ZM14 0a1.5 1.5 0 1 1 0 3 1.5 1.5 0 0 1 0-3Z" />
+                              </svg>
+                              <span className="sr-only">Comment settings</span>
+                              {isShowDelete && (
+                                <div className="z-10 w-36 absolute left-0 lg:right-0 -top-10 lg:-top-10 bg-white rounded divide-y divide-gray-100 shadow ">
+                                  <ul
+                                    className="py-1 text-sm text-gray-700 "
+                                    aria-labelledby="dropdownMenuIconHorizontalButton"
+                                  >
+                                    <li>
+                                      <a
+                                        onClick={() => setIsModal(true)}
+                                        className="block py-2 px-4 hover:bg-gray-100 cursor-pointer"
+                                      >
+                                        Delete
+                                      </a>
+                                    </li>
+                                  </ul>
+                                </div>
+                              )}
+                            </button>
+                          )}
+                        </div>
                       </div>
                     </footer>
                     {isModal && (
                       <Modal
                         onConfirm={() => onDelete()}
+                        /// if change need
                         onCancel={() => setIsModal(false)}
                         modalAlert={modalAlert}
                       />
@@ -370,12 +376,13 @@ const QuestionId: React.FC<Question> = () => {
                         ))}
                       </div>
                     </div>
+
                     {question.answers_data && question.answers_data.length ? (
                       question.answers_data.map((answer: any) => (
                         <Answer answer={answer} key={answer.id} />
                       ))
                     ) : (
-                      <div className="p-3">No Comments</div>
+                      <div className="p-3">No Answers</div>
                     )}
                   </div>
                 ) : (

@@ -11,6 +11,7 @@ export default function Home({}) {
         `${process.env.DEFAULT_PATH}/questions/`
       );
       setComments(response.data.questions);
+      console.log(response.data.questions);
     } catch (err) {
       console.error(err);
     }

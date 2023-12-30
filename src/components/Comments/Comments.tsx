@@ -103,7 +103,7 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
   }, []);
   return (
     <div className="lg:container ">
-      <section className="bg-white py-8 lg:py-16 ">
+      <section className="bg-white py-8 lg:py-16">
         <div className="max-w-6xl mx-auto px-4">
           <CommentHeader text="Total Open questions" commentCount={comments} />
           {isLoggedIn && (
@@ -119,46 +119,45 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
               alert={alert}
             />
           )}
-          <>
-            <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 ">
-              <ul className="flex flex-wrap -mb-px mb-2">
-                <li className="me-2">
-                  <a
-                    onClick={allToShow}
-                    className={`inline-block p-4 border-b-2 hover:text-red-300  rounded-t-lg border-transparent hover:text-red-500 hover:border-red-500 cursor-pointer ${
-                      isShowAll ? `border-red-500 border-b-2 text-red-500` : ""
-                    }`}
-                  >
-                    All
-                  </a>
-                </li>
-                <li className="me-2">
-                  <a
-                    onClick={answeredToShow}
-                    className={`inline-block p-4  border-b-2 hover:text-red-300 rounded-t-lg border-transparent hover:text-red-500 hover:border-red-500 cursor-pointer ${
-                      isShowAnswered
-                        ? `border-red-500 border-b-2 text-red-500`
-                        : ""
-                    }`}
-                  >
-                    Answered
-                  </a>
-                </li>
-                <li className="me-2">
-                  <a
-                    onClick={unansweredToShow}
-                    className={`inline-block p-4 border-b-2  rounded-t-lg border-transparent  hover:text-red-500 hover:border-red-500 hover:border-red-300 cursor-pointer ${
-                      isShowUnAnswered
-                        ? `border-red-500 border-b-2 text-red-500`
-                        : ""
-                    }`}
-                  >
-                    Unanswered
-                  </a>
-                </li>
-              </ul>
-            </div>
-          </>
+
+          <div className="text-sm font-medium text-center text-gray-500 border-b border-gray-200 ">
+            <ul className="flex flex-wrap -mb-px ">
+              <li className="me-2">
+                <a
+                  onClick={allToShow}
+                  className={`inline-block p-4 border-b-2 hover:text-red-300  rounded-t-lg border-transparent hover:text-red-500 hover:border-red-500 cursor-pointer ${
+                    isShowAll ? `border-red-500 border-b-2 text-red-500` : ""
+                  }`}
+                >
+                  All
+                </a>
+              </li>
+              <li className="me-2">
+                <a
+                  onClick={answeredToShow}
+                  className={`inline-block p-4  border-b-2 hover:text-red-300 rounded-t-lg border-transparent hover:text-red-500 hover:border-red-500 cursor-pointer ${
+                    isShowAnswered
+                      ? `border-red-500 border-b-2 text-red-500`
+                      : ""
+                  }`}
+                >
+                  Answered
+                </a>
+              </li>
+              <li className="me-2">
+                <a
+                  onClick={unansweredToShow}
+                  className={`inline-block p-4 border-b-2  rounded-t-lg border-transparent  hover:text-red-500 hover:border-red-500 hover:border-red-300 cursor-pointer ${
+                    isShowUnAnswered
+                      ? `border-red-500 border-b-2 text-red-500`
+                      : ""
+                  }`}
+                >
+                  Unanswered
+                </a>
+              </li>
+            </ul>
+          </div>
           {isShowAll && <AllComments comments={comments} />}
           {isShowAnswered && <AnsweredComments comments={comments} />}
           {isShowUnAnswered && <UnAnsweredComments comments={comments} />}
