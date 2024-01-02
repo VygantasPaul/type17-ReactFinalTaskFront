@@ -6,7 +6,9 @@ import cookie from "js-cookie";
 import axios from "axios";
 import { useRouter } from "next/router";
 type AnswerComponent = {
-  answer: any;
+  answer: string;
+  gained_likes_number: any[];
+  gained_dislikes_number: any[];
 };
 
 const Answers: React.FC<AnswerComponent> = ({ answer }) => {
