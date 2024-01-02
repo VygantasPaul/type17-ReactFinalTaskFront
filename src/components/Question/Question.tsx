@@ -1,7 +1,24 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Link from "next/link";
-const Question = ({ question }) => {
+type QuestionType = {
+  id: string;
+  title: string;
+  tags: string[];
+  user_data: {
+    id: string;
+    name: string;
+    avatar: string;
+  }[];
+  question: any;
+  gained_likes_number: string[];
+  gained_dislikes_number: string[];
+  answers_data: any[]; // You should define the actual type for answers_data
+  createdAt: string;
+  question_text: string;
+};
+
+const Question: React.FC<QuestionType> = ({ question }) => {
   if (!question.tags) {
     return null;
   }
