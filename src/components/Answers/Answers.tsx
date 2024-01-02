@@ -101,10 +101,13 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
           <div className="lg:flex items-center gap-2">
             {isLoggedIn && (
               <VoteBoxAnswers
+                // @ts-ignore
                 answer={answer}
                 // @ts-ignore
                 onLike={() => onClickLike(answer.id)}
+                // @ts-ignore
                 onDislike={() => onClickDislike(answer.id)}
+                // @ts-ignore
               />
             )}
 
