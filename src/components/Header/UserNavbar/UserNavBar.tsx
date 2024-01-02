@@ -24,7 +24,7 @@ const UserNavBar = () => {
         setAvatar(userData.avatar);
       }
     }
-  });
+  }, []);
 
   const onLogout = () => {
     cookie.remove("jwttoken");
