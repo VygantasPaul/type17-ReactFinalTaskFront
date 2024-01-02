@@ -7,8 +7,6 @@ import axios from "axios";
 import { useRouter } from "next/router";
 type AnswerComponent = {
   answer: string;
-  gained_likes_number: any[];
-  gained_dislikes_number: any[];
 };
 
 const Answers: React.FC<AnswerComponent> = ({ answer }) => {
@@ -113,31 +111,37 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
               />
             )}
 
-            {answer.user_data &&
+            {
               // @ts-ignore
-              answer.user_data.map((user: any) => (
-                <div key={user.id}>
-                  <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
-                    <img
-                      className="mr-2 w-6 h-6 rounded-full"
-                      src={user.avatar}
-                      alt={user.name}
-                    ></img>
-                    {user.name}
-                  </p>
-                </div>
-              ))}
+              answer.user_data &&
+                // @ts-ignore
+                answer.user_data.map((user: any) => (
+                  <div key={user.id}>
+                    <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
+                      <img
+                        className="mr-2 w-6 h-6 rounded-full"
+                        src={user.avatar}
+                        alt={user.name}
+                      ></img>
+                      {user.name}
+                    </p>
+                  </div>
+                ))
+            }
           </div>
           <p className="text-sm text-gray-600 dark:text-gray-400 pb-3 lg:pb-0">
             <span>Created: </span>
             <time>
-              {new Date(answer.createdAt).toLocaleString("en-US", {
-                year: "numeric",
-                month: "short",
-                day: "numeric",
-                hour: "numeric",
-                minute: "numeric",
-              })}
+              {
+                // @ts-ignore
+                new Date(answer.createdAt).toLocaleString("en-US", {
+                  year: "numeric",
+                  month: "short",
+                  day: "numeric",
+                  hour: "numeric",
+                  minute: "numeric",
+                })
+              }
             </time>
           </p>
         </div>
@@ -151,7 +155,12 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
         />
       )}
       <div className="p-3">
-        <p className="text-gray-500 ">{answer.answer_text}</p>
+        <p className="text-gray-500 ">
+          {
+            // @ts-ignore
+            answer.answer_text
+          }
+        </p>
       </div>
     </article>
   );
