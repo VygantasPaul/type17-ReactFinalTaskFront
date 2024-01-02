@@ -36,7 +36,6 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
       );
 
       if (response.status === 200) {
-        console.log(router.query.id);
         setModalAlert("Successfully deleted. Redirecting...");
         setTimeout(() => {
           router.push(`${process.env.LOCAL_HOST}/question/${router.query.id}`);
