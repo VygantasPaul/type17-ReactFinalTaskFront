@@ -56,7 +56,7 @@ const Header = () => {
             <Logo />
             <UserNavBar />
           </div>
-          {showMobile}
+
           <div className="hidden md:flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
             <div className="flex justify-between w-full flex-shrink-0 items-center">
               <Logo />
