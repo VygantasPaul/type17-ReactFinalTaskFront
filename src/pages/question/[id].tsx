@@ -39,7 +39,7 @@ interface Question {
   gained_dislikes_number: Array<any>;
   question_text: string;
   id: string;
-  answers_data: AnswerData[]; // Update this line
+  answers_data: AnswerData[];
   user_data: User[];
 }
 
@@ -166,10 +166,13 @@ const QuestionId: React.FC<Question> = () => {
       if (response.status === 200) {
         setIsModalLike(true);
         setModalLikesAlert("Thank you for your vote.");
+        router.reload();
       }
     } catch (err) {
       // @ts-ignore
       if (err.response.status === 401) {
+        setIsModalLike(true);
+        setModalLikesAlert("You cant vote because you are not logged in");
         console.error(err);
       }
       // @ts-ignore
@@ -196,6 +199,7 @@ const QuestionId: React.FC<Question> = () => {
       if (response.status === 200) {
         setIsModalLike(true);
         setModalLikesAlert("Thank you for your vote. ");
+        router.reload();
       }
     } catch (err) {
       // @ts-ignore
@@ -204,17 +208,25 @@ const QuestionId: React.FC<Question> = () => {
         setModalLikesAlert("You already have been vooted.");
       }
       // @ts-ignore
+      if (err.response.status === 401) {
+        setIsModalLike(true);
+        setModalLikesAlert("You cant vote because you are not logged in");
+        console.error(err);
+      }
+      // @ts-ignore
       if (err.response.status === 500 || err.response.status === 401) {
         console.error(err);
       }
     }
   };
+
   useEffect(() => {
     const cookieLogged = cookie.get("jwttoken");
     if (cookieLogged) {
       setLoggedIn(true);
     } else {
       setLoggedIn(false);
+      router.push("/login");
     }
     router.query.id && fetchQuestion(router.query.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -356,7 +368,6 @@ const QuestionId: React.FC<Question> = () => {
                         modalLikesAlert={modalLikesAlert}
                         onCancel={() => {
                           setIsModalLike(false);
-                          router.reload();
                         }}
                       />
                     )}

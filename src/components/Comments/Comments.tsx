@@ -88,19 +88,21 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
     } catch (err) {
       // @ts-ignore
       if (err.response.status === 401) {
-        setAlert("Bad Authentification");
+        setAlert("You login has expired. Please re-login.");
         return false;
       }
     }
   };
   useEffect(() => {
     const cookieLogged = cookie.get("jwttoken");
+
     if (cookieLogged) {
       setLoggedIn(true);
     } else {
       setLoggedIn(false);
     }
   }, []);
+
   return (
     <div className="lg:container ">
       <section className="bg-white py-8 lg:py-16">
@@ -158,9 +160,14 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
               </li>
             </ul>
           </div>
+
           {isShowAll && <AllComments comments={comments} />}
           {isShowAnswered && <AnsweredComments comments={comments} />}
           {isShowUnAnswered && <UnAnsweredComments comments={comments} />}
+
+          {!isShowAll && !isShowAnswered && !isShowUnAnswered && (
+            <p>No comments to display.</p>
+          )}
         </div>
       </section>
     </div>

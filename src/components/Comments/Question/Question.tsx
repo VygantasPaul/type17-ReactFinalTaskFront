@@ -68,8 +68,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
               <div className="">
                 <h2>Title: {comment.title} </h2>
               </div>
-              <div></div>
-              <div></div>
+
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-600">
                   <span>Created: </span>

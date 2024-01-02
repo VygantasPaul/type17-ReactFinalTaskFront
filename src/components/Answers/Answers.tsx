@@ -16,14 +16,7 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
   const headers = {
     authorization: cookie.get("jwttoken"),
   };
-  useEffect(() => {
-    const cookieLogged = cookie.get("jwttoken");
-    if (cookieLogged) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-  }, []);
+
   const onClickLike = async (id: string) => {
     const headers = {
       authorization: cookie.get("jwttoken"),
@@ -40,10 +33,13 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
       if (response.status === 200) {
         setIsModalLike(true);
         setModalLikesAlert("Thank you for your vote.");
+        router.reload();
       }
     } catch (err) {
       // @ts-ignore
       if (err.response.status === 401) {
+        setIsModalLike(true);
+        setModalLikesAlert("You cant vote because you are not logged in");
         console.error(err);
       }
       // @ts-ignore
@@ -78,15 +74,28 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
         setModalLikesAlert("You already have been vooted.");
       }
       // @ts-ignore
+      if (err.response.status === 401) {
+        setIsModalLike(true);
+        setModalLikesAlert("You cant vote because you are not logged in");
+        console.error(err);
+      }
+      // @ts-ignore
       if (err.response.status === 500 || err.response.status === 401) {
         console.error(err);
       }
     }
   };
-
+  useEffect(() => {
+    const cookieLogged = cookie.get("jwttoken");
+    if (cookieLogged) {
+      setLoggedIn(true);
+    } else {
+      setLoggedIn(false);
+    }
+  }, []);
   return (
     <article className="text-base bg-white rounded-lg ">
-      <footer className="flex mb-2 relative ">
+      <footer className="flex relative ">
         <div className="flex justify-between w-full bg-indigo-100 p-2 items-center">
           <div className="lg:flex items-center gap-2">
             {isLoggedIn && (
@@ -125,17 +134,14 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
           </p>
         </div>
       </footer>
-      <>
-        {isModalLike && (
-          <ModalLikesAlert
-            modalLikesAlert={modalLikesAlert}
-            onCancel={() => {
-              setIsModalLike(false);
-              router.reload();
-            }}
-          />
-        )}
-      </>
+      {isModalLike && (
+        <ModalLikesAlert
+          modalLikesAlert={modalLikesAlert}
+          onCancel={() => {
+            setIsModalLike(false);
+          }}
+        />
+      )}
       <div className="p-3">
         <p className="text-gray-500 ">{answer.answer_text}</p>
       </div>

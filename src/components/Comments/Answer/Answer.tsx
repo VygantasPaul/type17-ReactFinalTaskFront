@@ -83,10 +83,13 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
       if (response.status === 200) {
         setIsModalLike(true);
         setModalLikesAlert("Thank you for your vote.");
+        router.reload();
       }
     } catch (err) {
       // @ts-ignore
       if (err.response.status === 401) {
+        setIsModalLike(true);
+        setModalLikesAlert("You cant vote because you are not logged in");
         console.error(err);
       }
       // @ts-ignore
@@ -113,6 +116,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
       if (response.status === 200) {
         setIsModalLike(true);
         setModalLikesAlert("Thank you for your vote. ");
+        router.reload();
       }
     } catch (err) {
       // @ts-ignore
@@ -120,13 +124,18 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
         setIsModalLike(true);
         setModalLikesAlert("You already have been vooted.");
       }
+      if (err.response.status === 401) {
+        setIsModalLike(true);
+        setModalLikesAlert("You cant vote because you are not logged in");
+        console.error(err);
+      }
       // @ts-ignore
-      if (err.response.status === 500 || err.response.status === 401) {
+      if (err.response.status === 500) {
         console.error(err);
       }
     }
   };
-  console.log(answer);
+
   return (
     <article className="p-6 ml-6 lg:ml-12 text-base bg-white rounded-lg ">
       <footer className="mb-2 relative">
@@ -212,7 +221,6 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
           modalLikesAlert={modalLikesAlert}
           onCancel={() => {
             setIsModalLike(false);
-            router.reload();
           }}
         />
       )}

@@ -53,8 +53,7 @@ const Questions: React.FC<QuestionType> = ({ question }) => {
           <div className="">
             <h2>Title: {question.title} </h2>
           </div>
-          <div></div>
-          <div></div>
+
           <div>
             <p className="text-sm text-gray-600 dark:text-gray-400">
               <time>
