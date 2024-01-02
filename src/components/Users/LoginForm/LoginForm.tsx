@@ -1,12 +1,12 @@
-import React from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
 type LoginType = {
   email: string;
-  setEmail: () => void;
+  setEmail: Dispatch<SetStateAction<string>>;
   password: string;
-  setPassword: () => void;
+  setPassword: Dispatch<SetStateAction<string>>;
   isLoading: Boolean;
   onLogin: () => void;
   alert: string | null;
