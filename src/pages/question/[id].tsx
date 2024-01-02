@@ -15,35 +15,7 @@ import Alerts from "@/components/Alerts/Alerts";
 import VoteBoxId from "@/components/Comments/VotesBox/VoteBoxId";
 import ModalLikesAlert from "@/components/Modal/ModalLikesAlert";
 
-interface User {
-  id: string;
-  name: string;
-  avatar: string;
-}
-
-interface AnswerData {
-  id: string;
-  question_id: string;
-  user_id: string;
-  answer_text: string;
-  gained_likes_number: any[];
-  gained_dislikes_number: any[];
-  user_data: User[];
-}
-
-interface Question {
-  createdAt: string;
-  title: string;
-  tags: string;
-  gained_likes_number: Array<any>;
-  gained_dislikes_number: Array<any>;
-  question_text: string;
-  id: string;
-  answers_data: AnswerData[];
-  user_data: User[];
-}
-
-const QuestionId: React.FC<Question> = () => {
+const QuestionId = () => {
   const [isLoading, setLoading] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
   const [alert, setAlert] = useState<string>("");
@@ -228,7 +200,8 @@ const QuestionId: React.FC<Question> = () => {
       setLoggedIn(false);
       router.push("/login");
     }
-    router.query.id && fetchQuestion(router.query.id);
+
+    router.query.id && fetchQuestion(router.query.id as string);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [router.query]);
 
@@ -239,7 +212,8 @@ const QuestionId: React.FC<Question> = () => {
           <div className="lg:container ">
             <section className="bg-white py-8 lg:py-16 relative">
               <div className="max-w-6xl mx-auto px-4  pb-3 ">
-                <CommentHeader text="Question" commentCount={false} />
+                <CommentHeader text="Question" commentCount={null} />
+
                 {isLoggedIn && (
                   <form className="mb-6">
                     <Textarea
@@ -265,22 +239,30 @@ const QuestionId: React.FC<Question> = () => {
                 {question ? (
                   <div>
                     <div className="flex gap-2">
-                      {question.user_data &&
+                      {
                         // @ts-ignore
-                        question.user_data.map((user: any) => (
-                          <div key={user.id}>
-                            <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
-                              <img
-                                className="mr-2 w-6 h-6 rounded-full"
-                                src={user.avatar}
-                                alt={user.name}
-                              ></img>
-                              {user.name}
-                            </p>
-                          </div>
-                        ))}
+                        question.user_data &&
+                          // @ts-ignore
+                          question.user_data.map((user: any) => (
+                            <div key={user.id}>
+                              <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
+                                <img
+                                  className="mr-2 w-6 h-6 rounded-full"
+                                  src={user.avatar}
+                                  alt={user.name}
+                                ></img>
+                                {user.name}
+                              </p>
+                            </div>
+                          ))
+                      }
                       <div>
-                        <span>Replied:</span>({question.answers_data.length})
+                        <span>Replied:</span>(
+                        {
+                          // @ts-ignore
+                          question.answers_data.length
+                        }
+                        )
                       </div>
                     </div>
                     <footer className="flex mb-2 relative p">
@@ -289,30 +271,42 @@ const QuestionId: React.FC<Question> = () => {
                           {isLoggedIn && (
                             <div>
                               <VoteBoxId
+                                // @ts-ignore
                                 question={question}
+                                // @ts-ignore
                                 onLike={() => onClickLike(question.id)}
+                                // @ts-ignore
                                 onDislike={() => onClickDislike(question.id)}
                               />
                             </div>
                           )}
                           <div className="pl-4">
-                            <h2>Title: {question.title}</h2>
+                            <h2>
+                              Title:
+                              {
+                                // @ts-ignore
+                                question.title
+                              }
+                            </h2>
                           </div>
                         </div>
                         <div className="flex items-center gap-2">
                           <p className="text-sm text-gray-600 dark:text-gray-600 pb-3 lg:pb-0">
                             <span>Created: </span>
                             <time>
-                              {new Date(question.createdAt).toLocaleString(
-                                "en-US",
-                                {
-                                  year: "numeric",
-                                  month: "short",
-                                  day: "numeric",
-                                  hour: "numeric",
-                                  minute: "numeric",
-                                }
-                              )}
+                              {
+                                // @ts-ignore
+                                new Date(question.createdAt).toLocaleString(
+                                  "en-US",
+                                  {
+                                    year: "numeric",
+                                    month: "short",
+                                    day: "numeric",
+                                    hour: "numeric",
+                                    minute: "numeric",
+                                  }
+                                )
+                              }
                             </time>
                           </p>
 
@@ -358,7 +352,6 @@ const QuestionId: React.FC<Question> = () => {
                     {isModal && (
                       <Modal
                         onConfirm={() => onDelete()}
-                        /// if change need
                         onCancel={() => setIsModal(false)}
                         modalAlert={modalAlert}
                       />
@@ -372,29 +365,42 @@ const QuestionId: React.FC<Question> = () => {
                       />
                     )}
                     <div className="p-3">
-                      <p>{question.question_text}</p>
+                      <p>
+                        {
+                          // @ts-ignore
+                          question.question_text
+                        }
+                      </p>
                     </div>
                     <div>
                       <div className="border-b-2 border-indigo-500 pb-2">
                         <span className="pr-1">Tags:</span>
-                        {question.tags.map((tag: string, index: null) => (
-                          <span key={index} className="text-xs mr-1">
-                            <div className="bg-indigo-100 p-1 inline">
-                              {tag.trim()}
-                            </div>
-                            ,
-                          </span>
-                        ))}
+
+                        {
+                          // @ts-ignore
+                          question.tags.map((tag: string, index: null) => (
+                            <span key={index} className="text-xs mr-1">
+                              <div className="bg-indigo-100 p-1 inline">
+                                {tag.trim()}
+                              </div>
+                              ,
+                            </span>
+                          ))
+                        }
                       </div>
                     </div>
 
-                    {question.answers_data && question.answers_data.length ? (
-                      question.answers_data.map((answer: any) => (
-                        <Answer answer={answer} key={answer.id} />
-                      ))
-                    ) : (
-                      <div className="p-3">No Answers</div>
-                    )}
+                    {
+                      // @ts-ignore
+                      question.answers_data && question.answers_data.length ? (
+                        // @ts-ignore
+                        question.answers_data.map((answer: any) => (
+                          <Answer answer={answer} key={answer.id} />
+                        ))
+                      ) : (
+                        <div className="p-3">No Answers</div>
+                      )
+                    }
                   </div>
                 ) : (
                   <p>

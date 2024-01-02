@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Link from "next/link";
-type QuestionType = {
+interface QuestionType {
   id: string;
   title: string;
   tags: string[];
@@ -16,7 +16,7 @@ type QuestionType = {
   answers_data: any[]; // You should define the actual type for answers_data
   createdAt: string;
   question_text: string;
-};
+}
 
 const Question: React.FC<QuestionType> = ({ question }) => {
   if (!question.tags) {
@@ -70,8 +70,7 @@ const Question: React.FC<QuestionType> = ({ question }) => {
               <div className="">
                 <h2>Title: {question.title} </h2>
               </div>
-              <div></div>
-              <div></div>
+
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-600">
                   <span>Created: </span>
