@@ -102,6 +102,7 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
             {isLoggedIn && (
               <VoteBoxAnswers
                 answer={answer}
+                // @ts-ignore
                 onLike={() => onClickLike(answer.id)}
                 onDislike={() => onClickDislike(answer.id)}
               />
