@@ -1,16 +1,16 @@
-import React, { Dispatch } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
 type RegisterType = {
   email: string | null;
-  setEmail: () => void;
+  setEmail: Dispatch<SetStateAction<string | null>>;
   name: string | null;
-  setName: () => void;
+  setName: Dispatch<SetStateAction<string | null>>;
   avatar: string | null;
-  setAvatar: () => void;
+  setAvatar: Dispatch<SetStateAction<string | null>>;
   password: string | null;
-  setPassword: () => void;
+  setPassword: React.Dispatch<React.SetStateAction<string>>;
   isLoading: Boolean;
   onRegister: () => void;
   alert: string | null;
