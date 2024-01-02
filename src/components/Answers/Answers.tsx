@@ -99,7 +99,9 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
         <div className="flex justify-between w-full bg-indigo-100 p-2 items-center">
           <div className="lg:flex items-center gap-2">
             {isLoggedIn && (
+              // @ts-ignore
               <VoteBoxAnswers
+                // @ts-ignore
                 answer={answer}
                 onLike={() => onClickLike(answer.id)}
                 onDislike={() => onClickDislike(answer.id)}
@@ -107,6 +109,7 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
             )}
 
             {answer.user_data &&
+              // @ts-ignore
               answer.user_data.map((user: any) => (
                 <div key={user.id}>
                   <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">

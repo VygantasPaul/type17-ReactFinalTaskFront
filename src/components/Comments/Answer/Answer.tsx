@@ -124,6 +124,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
         setIsModalLike(true);
         setModalLikesAlert("You already have been vooted.");
       }
+      // @ts-ignore
       if (err.response.status === 401) {
         setIsModalLike(true);
         setModalLikesAlert("You cant vote because you are not logged in");
