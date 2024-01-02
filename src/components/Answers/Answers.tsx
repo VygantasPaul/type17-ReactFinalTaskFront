@@ -6,20 +6,6 @@ import cookie from "js-cookie";
 import axios from "axios";
 import { useRouter } from "next/router";
 type AnswerComponent = {
-  id: string;
-  title: string;
-  tags: string[];
-  user_data: {
-    id: string;
-    name: string;
-    avatar: string;
-  }[];
-  gained_likes_number: string[];
-  gained_dislikes_number: string[];
-  answers_data: any[]; // You should define the actual type for answers_data
-  createdAt: string;
-  question_text: string;
-  answer_text: string;
   answer: any;
 };
 

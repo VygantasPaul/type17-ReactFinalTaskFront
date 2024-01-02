@@ -24,14 +24,17 @@ const UnansweredComments: React.FC<AnsweredCommentsType> = () => {
   }, []);
   return (
     <>
-      {unansweredData &&
+      {unansweredData && unansweredData.length > 0 ? (
         unansweredData
           .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
           .map((comment) => (
             <div className="comments_wrap" key={comment.id}>
               <Comment comment={comment} />
             </div>
-          ))}
+          ))
+      ) : (
+        <p>No Unanswered comments</p>
+      )}
     </>
   );
 };

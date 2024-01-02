@@ -21,18 +21,19 @@ const AnsweredComments: React.FC<AnsweredCommentsType> = () => {
     fetchAnswered();
   }, []);
   return (
-    <div>
-      <>
-        {answeredData &&
-          answeredData
-            .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
-            .map((comment) => (
-              <div className="comments_wrap" key={comment.id}>
-                <Comment comment={comment} />
-              </div>
-            ))}
-      </>
-    </div>
+    <>
+      {answeredData && answeredData.length > 0 ? (
+        answeredData
+          .sort((a, b) => (b.createdAt > a.createdAt ? 1 : -1))
+          .map((comment) => (
+            <div className="comments_wrap" key={comment.id}>
+              <Comment comment={comment} />
+            </div>
+          ))
+      ) : (
+        <p>No answered comments</p>
+      )}
+    </>
   );
 };
 

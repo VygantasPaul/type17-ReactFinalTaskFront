@@ -6,11 +6,15 @@ type CommentsType = {
 const AllComments: React.FC<CommentsType> = ({ comments }) => {
   return (
     <div className="comments_wrap">
-      {comments.map((comment: any) => (
-        <div key={comment.id}>
-          <Comment comment={comment} />
-        </div>
-      ))}
+      {comments
+        .sort((a: { createdAt: number }, b: { createdAt: number }) =>
+          b.createdAt > a.createdAt ? 1 : -1
+        )
+        .map((comment: any) => (
+          <div key={comment.id}>
+            <Comment comment={comment} />
+          </div>
+        ))}
     </div>
   );
 };
