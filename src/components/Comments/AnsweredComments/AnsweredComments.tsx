@@ -9,7 +9,7 @@ const AnsweredComments: React.FC<AnsweredCommentsType> = () => {
   const fetchAnswered = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3010/questions/withAnswers"
+        `${process.env.DEFAULT_PATH}/questions/withAnswers`
       );
       setAnswereDData(response.data.questionWithAnswers);
       console.log(response.data);

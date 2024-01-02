@@ -164,10 +164,6 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
           {isShowAll && <AllComments comments={comments} />}
           {isShowAnswered && <AnsweredComments comments={comments} />}
           {isShowUnAnswered && <UnAnsweredComments comments={comments} />}
-
-          {!isShowAll && !isShowAnswered && !isShowUnAnswered && (
-            <p>No comments to display.</p>
-          )}
         </div>
       </section>
     </div>

@@ -9,10 +9,9 @@ const UnansweredComments: React.FC<AnsweredCommentsType> = () => {
   const fetchUnAnswered = async () => {
     try {
       const response = await axios.get(
-        "http://localhost:3010/questions/noAnswers"
+        `${process.env.DEFAULT_PATH}/questions/noAnswers`
       );
       setUnAnswereDData(response.data.questionNoAnswers);
-      console.log(response.data.questionNoAnswers);
     } catch (err) {
       // @ts-ignore
       if (err.response.status === 404) {
