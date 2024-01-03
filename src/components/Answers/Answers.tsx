@@ -96,7 +96,7 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
   }, []);
   return (
     <article className="text-base bg-white rounded-lg ">
-      <footer className="flex relative ">
+      <footer className="flex relative items-center">
         <div className="flex justify-between w-full bg-indigo-100 p-2 items-center">
           <div className="lg:flex items-center gap-2">
             {isLoggedIn && (
@@ -117,7 +117,7 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
                 // @ts-ignore
                 answer.user_data.map((user: any) => (
                   <div key={user.id}>
-                    <p className="inline-flex items-center mr-3 text-sm text-gray-900  font-semibold">
+                    <p className="inline-flex items-center mr-3 pt-4 text-sm text-gray-900  font-semibold">
                       <img
                         className="mr-2 w-6 h-6 rounded-full"
                         src={user.avatar}

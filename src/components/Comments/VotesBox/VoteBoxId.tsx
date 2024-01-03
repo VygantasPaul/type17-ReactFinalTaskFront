@@ -11,8 +11,8 @@ const VoteBoxId: React.FC<VoteBoxType> = ({ question, onLike, onDislike }) => {
   const likesCount = question?.gained_likes_number?.length ?? 0;
   const dislikesCount = question?.gained_dislikes_number?.length ?? 0;
   return (
-    <div className="flex justify-center gap-2 bg-white p-1">
-      <div className="text-center  text-lg p-1">
+    <div className="flex justify-center bg-white p-1">
+      <div className="text-center text-lg p-1">
         <span
           className={`font-semibold ${likesCount > 0 ? "text-green-500" : ""}`}
         >

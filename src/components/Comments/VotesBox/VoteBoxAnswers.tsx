@@ -18,8 +18,8 @@ const VoteBoxAnswers: React.FC<VoteBoxAnswersType> = ({
   const dislikesCount = answer?.gained_dislikes_number?.length ?? 0;
 
   return (
-    <div className="flex justify-center gap-2 bg-white p-1">
-      <div className="text-center  text-lg p-1">
+    <div className="flex justify-center bg-white p-1 w-24">
+      <div className="text-center text-lg p-2">
         <span
           className={`font-semibold ${likesCount > 0 ? "text-green-500" : ""}`}
         >
@@ -41,7 +41,7 @@ const VoteBoxAnswers: React.FC<VoteBoxAnswersType> = ({
           />
         </svg>
       </div>
-      <div className="text-center  text-lg p-1">
+      <div className="text-center  text-lg p-2 ">
         <span
           className={`font-semibold ${dislikesCount > 0 ? "text-red-500" : ""}`}
         >

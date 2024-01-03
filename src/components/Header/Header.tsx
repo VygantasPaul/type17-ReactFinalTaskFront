@@ -7,7 +7,7 @@ import UserNavBar from "./UserNavbar/UserNavBar";
 
 const Header = () => {
   const [showMobile, setShowMobile] = useState<Boolean | null>(null);
-  const onShoMobile = () => {
+  const onShowMobile = () => {
     setShowMobile(!showMobile);
   };
   return (
@@ -16,7 +16,7 @@ const Header = () => {
         <div className="relative flex h-16 items-center justify-between">
           <div className="flex w-full justify-between items-center md:hidden">
             <button
-              onClick={onShoMobile}
+              onClick={onShowMobile}
               type="button"
               className="relative inline-flex items-center justify-center rounded-md p-2 text-gray-400  focus:outline-none  focus:ring-inset "
             >
@@ -66,7 +66,9 @@ const Header = () => {
           </div>
         </div>
       </div>
-      {showMobile && <MobileNavBar />}
+      {showMobile && (
+        <MobileNavBar showMobile={showMobile} onClickHide={onShowMobile} />
+      )}
     </nav>
   );
 };

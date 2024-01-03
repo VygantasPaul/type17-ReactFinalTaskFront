@@ -99,6 +99,7 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
     if (cookieLogged) {
       setLoggedIn(true);
     } else {
+      cookie.remove("jwttoken");
       setLoggedIn(false);
     }
   }, []);
