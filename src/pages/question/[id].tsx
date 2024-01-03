@@ -290,8 +290,8 @@ const QuestionId = () => {
                             </h2>
                           </div>
                         </div>
-                        <div className="flex items-center gap-2">
-                          <p className="text-sm text-gray-600 dark:text-gray-600 pb-3 lg:pb-0">
+                        <div className="flex items-center justify-between gap-2">
+                          <p className="text-sm text-gray-600 dark:text-gray-600 ">
                             <span>Created: </span>
                             <time>
                               {

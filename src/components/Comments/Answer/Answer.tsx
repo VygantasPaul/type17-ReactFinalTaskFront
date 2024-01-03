@@ -137,7 +137,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
   };
 
   return (
-    <article className="p-6 ml-6 lg:ml-12 text-base bg-white rounded-lg ">
+    <article className="p-4 sm:p-5 lg:p-6 ml-6 lg:ml-12 text-base bg-white rounded-lg ">
       <footer className="mb-2 relative">
         <div className="lg:flex items-center justify-between w-full bg-indigo-100 p-2">
           <div className="lg:flex items-center gap-3">
@@ -161,8 +161,8 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
               </p>
             </div>
           </div>
-          <div className="flex items-center gap-2">
-            <p className="text-sm text-gray-600 dark:text-gray-600 pb-3 lg:pb-0">
+          <div className="flex items-center justify-content gap-2">
+            <p className="text-sm text-gray-600 dark:text-gray-600">
               <time>
                 {new Date(answer.createdAt).toLocaleString("en-US", {
                   year: "numeric",

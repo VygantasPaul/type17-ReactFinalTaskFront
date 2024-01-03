@@ -31,7 +31,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
 
   return (
     <div className="pt-2">
-      <div className="flex gap-2 p-2">
+      <div className="lg:flex gap-2 p-2">
         <div>
           {comment.user_data &&
             comment.user_data.map((user: any) => (
@@ -64,7 +64,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
       >
         <footer className="border-b-2 border-indigo-500 mb-2 relative ">
           <div className=" w-full bg-indigo-100 hover:bg-indigo-300 p-2 ">
-            <div className="px-2 flex justify-between items-center">
+            <div className="px-2 lg:flex justify-between items-center">
               <div className="">
                 <h2>Title: {comment.title} </h2>
               </div>
