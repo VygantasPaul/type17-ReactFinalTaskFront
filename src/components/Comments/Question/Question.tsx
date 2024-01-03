@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Link from "next/link";
+import { Montserrat } from "next/font/google";
+const montserratBold = Montserrat({ subsets: ["latin"], weight: "600" });
 type CommentComponent = {
   user_data: Array<any>;
   answers_data: Array<any>;
@@ -48,12 +50,22 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
             ))}
         </div>
         <div>
-          <p>Votes: ({gained_likes + gained_dislikes})</p>
+          <p>
+            Votes:{" "}
+            <span className={`${montserratBold.className}`}>
+              ({gained_likes + gained_dislikes})
+            </span>
+          </p>
         </div>
         <div>
           {comment.answers_data && (
             <div className="">
-              <p>Replyed: ({comment.answers_data.length}) </p>
+              <p>
+                Replyed:{" "}
+                <span className={`${montserratBold.className}`}>
+                  ({comment.answers_data.length})
+                </span>{" "}
+              </p>
             </div>
           )}
         </div>
@@ -66,12 +78,17 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
           <div className=" w-full bg-indigo-100 hover:bg-indigo-300 p-2 ">
             <div className="px-2 lg:flex justify-between items-center">
               <div className="">
-                <h2>Title: {comment.title} </h2>
+                <h2>
+                  <span className={`${montserratBold.className}`}>Title:</span>{" "}
+                  {comment.title}{" "}
+                </h2>
               </div>
 
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-600">
-                  <span>Created: </span>
+                  <span className={`${montserratBold.className}`}>
+                    Created:{" "}
+                  </span>
                   <time>
                     {new Date(comment.createdAt).toLocaleString("en-US", {
                       year: "numeric",

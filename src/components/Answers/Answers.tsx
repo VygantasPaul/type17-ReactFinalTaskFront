@@ -97,8 +97,8 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
   return (
     <article className="text-base bg-white rounded-lg ">
       <footer className="flex relative items-center">
-        <div className="flex justify-between w-full bg-indigo-100 p-2 items-center">
-          <div className="lg:flex items-center gap-2">
+        <div className="flex justify-between w-full bg-indigo-100 p-3 items-center">
+          <div className="lg:flex items-center gap-1">
             {isLoggedIn && (
               <VoteBoxAnswers
                 // @ts-ignore

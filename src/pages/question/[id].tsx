@@ -14,7 +14,8 @@ import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
 import VoteBoxId from "@/components/Comments/VotesBox/VoteBoxId";
 import ModalLikesAlert from "@/components/Modal/ModalLikesAlert";
-
+import { Montserrat } from "next/font/google";
+const montserratBold = Montserrat({ subsets: ["latin"], weight: "600" });
 const QuestionId = () => {
   const [isLoading, setLoading] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
@@ -257,12 +258,18 @@ const QuestionId = () => {
                           ))
                       }
                       <div>
-                        <span>Replied:</span>(
+                        <span>Replied: </span>
                         {
                           // @ts-ignore
-                          question.answers_data.length
+                          <span className={`${montserratBold.className}`}>
+                            (
+                            {
+                              // @ts-ignore
+                              question.answers_data.length
+                            }
+                            )
+                          </span>
                         }
-                        )
                       </div>
                     </div>
                     <footer className="flex mb-2 relative p">
