@@ -313,7 +313,6 @@ const QuestionId = () => {
                           {isLoggedIn && (
                             <button
                               onClick={onDeleteShow}
-                              id="dropdownComment1Button"
                               className="relative  items-center p-2 text-sm font-medium text-center text-gray-500  bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 "
                               type="button"
                             >

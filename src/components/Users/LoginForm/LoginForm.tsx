@@ -1,7 +1,8 @@
-import React, { Dispatch, SetStateAction } from "react";
+import React, { Dispatch, SetStateAction, useState } from "react";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
+
 type LoginType = {
   email: string;
   setEmail: Dispatch<SetStateAction<string>>;
@@ -21,6 +22,19 @@ const LoginForm: React.FC<LoginType> = ({
   onLogin,
   alert,
 }) => {
+  const handleAlertType = () => {
+    if (alert === "Please fill in all required fields") {
+      return "error";
+    } else if (alert === "Wrong email format") {
+      return "error";
+    } else if (alert === "Bad user email or password") {
+      return "error";
+    } else if (alert === "User logged in. Redirecting....") {
+      return "success";
+    }
+    // You can handle other types of alerts here
+    return null;
+  };
   return (
     <>
       <form className="space-y-6">
@@ -54,7 +68,7 @@ const LoginForm: React.FC<LoginType> = ({
           className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         />
       </form>
-      <Alerts alert={alert} />
+      <Alerts alert={alert} type={handleAlertType() || undefined} />
     </>
   );
 };
