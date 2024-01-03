@@ -52,7 +52,7 @@ const Login = () => {
     } catch (err) {
       // @ts-ignore
       if (err.response.status === 401 || err.response.status === 400) {
-        setAlert("Bad user email or  password");
+        setAlert("Bad user email or password");
         setLoading(false);
         return false;
       }
