@@ -32,8 +32,8 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
   const gained_dislikes = comment.gained_dislikes_number?.length || 0;
 
   return (
-    <div className="pt-2">
-      <div className="flex gap-2 p-2">
+    <div className="pt-3">
+      <div className="flex gap-2">
         <div>
           {comment.user_data &&
             comment.user_data.map((user: any) => (
