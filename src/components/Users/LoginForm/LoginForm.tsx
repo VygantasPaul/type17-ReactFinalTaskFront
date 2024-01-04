@@ -1,16 +1,21 @@
-import React, { Dispatch, SetStateAction, useState } from "react";
+import React, { Dispatch, SetStateAction } from "react";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
+
+type AlertType = {
+  message: string;
+  type: "success" | "error";
+};
 
 type LoginType = {
   email: string;
   setEmail: Dispatch<SetStateAction<string>>;
   password: string;
   setPassword: Dispatch<SetStateAction<string>>;
-  isLoading: Boolean;
+  isLoading: boolean;
   onLogin: () => void;
-  alert: string | null;
+  alertState: AlertType | null;
 };
 
 const LoginForm: React.FC<LoginType> = ({
@@ -20,21 +25,17 @@ const LoginForm: React.FC<LoginType> = ({
   setPassword,
   isLoading,
   onLogin,
-  alert,
+  alertState,
 }) => {
-  const handleAlertType = () => {
-    if (alert === "Please fill in all required fields") {
-      return "error";
-    } else if (alert === "Wrong email format") {
-      return "error";
-    } else if (alert === "Bad user email or password") {
-      return "error";
-    } else if (alert === "User logged in. Redirecting....") {
-      return "success";
+  const convertAlert = (alertString: string | null): AlertType[] => {
+    if (alertString) {
+      return [{ message: alertString, type: "error" }];
     }
-    // You can handle other types of alerts here
-    return null;
+    return [];
   };
+
+  convertAlert(alertState?.message || null);
+
   return (
     <>
       <form className="space-y-6">
@@ -68,7 +69,9 @@ const LoginForm: React.FC<LoginType> = ({
           className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         />
       </form>
-      <Alerts alert={alert} type={handleAlertType() || undefined} />
+      {alertState && (
+        <Alerts message={alertState.message} type={alertState.type} />
+      )}
     </>
   );
 };

@@ -1,9 +1,12 @@
+// Alerts.tsx
 import React from "react";
+
 type AlertType = {
-  alert: string | null;
+  message: string;
   type?: "success" | "error";
 };
-const Alerts: React.FC<AlertType> = ({ alert, type }) => {
+
+const Alerts: React.FC<AlertType> = ({ message, type }) => {
   let alertClass = "";
   let borderClass = "";
 
@@ -14,14 +17,11 @@ const Alerts: React.FC<AlertType> = ({ alert, type }) => {
     alertClass = "text-red-500";
     borderClass = "border-red-300";
   }
+
   return (
-    <>
-      {alert && (
-        <div className={`mt-2 p-2 border-2 ${borderClass} ${alertClass}`}>
-          {alert}
-        </div>
-      )}
-    </>
+    <div className={`mt-2 p-2 border-2 ${borderClass} ${alertClass}`}>
+      {message}
+    </div>
   );
 };
 

@@ -5,12 +5,16 @@ import { useRouter } from "next/router";
 
 import RegisterForm from "@/components/Users/RegisterForm/RegisterForm";
 const Register = () => {
-  const [alert, setAlert] = useState<string | null>("");
+  type AlertType = {
+    message: string;
+    type: "success" | "error";
+  };
   const [email, setEmail] = useState<string | null>("");
   const [name, setName] = useState<string | null>("");
   const [avatar, setAvatar] = useState<string | null>("");
   const [password, setPassword] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
+  const [alertState, setAlertState] = useState<AlertType | null>(null);
   const router = useRouter();
   const validation = () => {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
@@ -19,19 +23,25 @@ const Register = () => {
       /^(https?:\/\/)?(?:www\.)?([^.\s]+\.[^.\s]+)(\.\w{2,})+\/([^.\s]+\.\w{3,})$/;
 
     if (!email || !name || !password) {
-      setAlert("Please fill in all required fields");
+      setAlertState({
+        message: "Please fill in all required fields",
+        type: "error",
+      });
       return false;
     } else if (!emailRegex.test(email)) {
-      setAlert("Wrong email format");
+      setAlertState({ message: "Wrong email format", type: "error" });
       return false;
     } else if (!inputRegex.test(name)) {
-      setAlert("Please enter name atleat 4 letters");
+      setAlertState({
+        message: "Please enter name atleat 4 letters",
+        type: "error",
+      });
       return false;
     } else if (!avatar) {
-      setAlert("Empty avatar field");
+      setAlertState({ message: "Empty avatar field", type: "error" });
       return false;
     } else if (!imageUrlRegex.test(avatar)) {
-      setAlert("Wrong image path");
+      setAlertState({ message: "Wrong image path", type: "error" });
       return false;
     } else {
       return true;
@@ -59,19 +69,28 @@ const Register = () => {
           setTimeout(() => {
             router.push("/login");
           }, 1000);
-          setAlert("User registered. Redirecting...");
+          setAlertState({
+            message: "User registered. Redirecting...",
+            type: "error",
+          });
         }
       }
     } catch (err) {
       // @ts-ignore
       if (err.response.status === 500) {
-        setAlert("Something wrong please try enter different email");
+        setAlertState({
+          message: "Something wrong please try enter different email",
+          type: "error",
+        });
         setLoading(false);
         return false;
       }
       // @ts-ignore
       if (err.response.status === 401) {
-        setAlert("Bad user email or  password");
+        setAlertState({
+          message: "Bad user email or  password",
+          type: "error",
+        });
         return false;
       }
     }
@@ -97,7 +116,7 @@ const Register = () => {
             setPassword={setPassword}
             isLoading={isLoading}
             onRegister={onRegister}
-            alert={alert}
+            alertState={alertState}
           />
         </div>
       </div>

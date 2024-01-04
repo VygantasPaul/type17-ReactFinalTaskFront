@@ -6,6 +6,8 @@ import { useRouter } from "next/router";
 import Modal from "@/components/Modal/Modal";
 import ModalLikesAlert from "@/components/Modal/ModalLikesAlert";
 import VoteBoxAnswers from "../VotesBox/VoteBoxAnswers";
+import { Montserrat } from "next/font/google";
+const montserratBold = Montserrat({ subsets: ["latin"], weight: "600" });
 type AnswerComponent = {
   createdAt: string;
   answer_text: number;
@@ -163,6 +165,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
           </div>
           <div className="flex items-center justify-content gap-2">
             <p className="text-sm text-gray-600 dark:text-gray-600">
+              <span className={`${montserratBold.className}`}>Created: </span>
               <time>
                 {new Date(answer.createdAt).toLocaleString("en-US", {
                   year: "numeric",

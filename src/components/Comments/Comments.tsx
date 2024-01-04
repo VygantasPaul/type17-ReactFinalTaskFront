@@ -8,13 +8,17 @@ import AnsweredComments from "./AnsweredComments/AnsweredComments";
 import UnAnsweredComments from "./UnAnsweredComments/UnAnsweredComments";
 import AllComments from "./AllComments/AllComments";
 import Form from "./AddQuestionForm/AddQuestionForm";
+type AlertType = {
+  message: string;
+  type: "success" | "error";
+};
 type CommentsType = {
   comments: Array<any> | null;
 };
 const Comments: React.FC<CommentsType> = ({ comments }) => {
   const router = useRouter();
   const [isLoading, setLoading] = useState(false);
-  const [alert, setAlert] = useState<string>("");
+  const [alertState, setAlertState] = useState<AlertType | null>(null);
   const [questionField, setQuestionField] = useState<string>("");
   const [titleField, setTitleField] = useState<string>("");
   const [tagsField, setTagsField] = useState<string>("");
@@ -45,16 +49,28 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
     const inputRegex = /^\S.{5,}/;
 
     if (!titleField || !questionField || !tagsField) {
-      setAlert("Please fill in all required fields");
+      setAlertState({
+        message: "Please fill in all required fields",
+        type: "error",
+      });
       return false;
     } else if (!inputRegex.test(titleField)) {
-      setAlert("Title field should be atleat 5 letters");
+      setAlertState({
+        message: "Title field should be atleat 5 letters",
+        type: "error",
+      });
       return false;
     } else if (!inputRegex.test(questionField)) {
-      setAlert("Question field should be atleat 5 letters ");
+      setAlertState({
+        message: "Question field should be atleat 5 letters",
+        type: "error",
+      });
       return false;
     } else {
-      setAlert("Comment added successfully");
+      setAlertState({
+        message: "Question added successfully",
+        type: "success",
+      });
       return true;
     }
   };
@@ -88,14 +104,20 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
     } catch (err) {
       // @ts-ignore
       if (err.response.status === 401) {
-        setAlert("You login has expired. Please re-login.");
+        setAlertState({
+          message: "You login has expired. Please re-login.",
+          type: "error",
+        });
+        setTimeout(() => {
+          router.push("/login");
+        }, 1000);
+
         return false;
       }
     }
   };
   useEffect(() => {
     const cookieLogged = cookie.get("jwttoken");
-
     if (cookieLogged) {
       setLoggedIn(true);
     } else {
@@ -118,7 +140,7 @@ const Comments: React.FC<CommentsType> = ({ comments }) => {
               setTagsField={setTagsField}
               isLoading={isLoading}
               onAddComment={onAddComment}
-              alert={alert}
+              alertState={alertState}
             />
           )}
 

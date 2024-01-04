@@ -5,27 +5,32 @@ import cookie from "js-cookie";
 import axios from "axios";
 import { useRouter } from "next/router";
 import LoginForm from "@/components/Users/LoginForm/LoginForm";
-
+// eslint-disable-next-line react-hooks/rules-of-hooks
+type AlertType = {
+  message: string;
+  type: "success" | "error";
+};
 const Login = () => {
   const router = useRouter();
-  const [alert, setAlert] = useState<string | null>("");
+
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
-  const [alertType, setAlertType] = useState<"success" | "error" | undefined>(
-    undefined
-  );
-
+  const [alertState, setAlertState] = useState<AlertType | null>(null);
   const onLogin = async () => {
     const checkLogin = () => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       if (!email || !password) {
-        setAlert("Please fill in all required fields");
-        setAlertType("error");
+        setAlertState({
+          message: "Please fill in all required fields",
+          type: "error",
+        });
+
         return false;
       } else if (!emailRegex.test(email)) {
-        setAlert("Wrong email format");
+        setAlertState({ message: "Wrong email format", type: "error" });
+
         return false;
       } else {
         return true;
@@ -51,13 +56,19 @@ const Login = () => {
             router.push("/");
           }, 1000);
 
-          setAlert("User logged in. Redirecting....");
+          setAlertState({
+            message: "User logged in. Redirecting....",
+            type: "success",
+          });
         }
       }
     } catch (err) {
       // @ts-ignore
       if (err.response.status === 401 || err.response.status === 400) {
-        setAlert("Bad user email or password");
+        setAlertState({
+          message: "Bad user email or password",
+          type: "error",
+        });
         setLoading(false);
         return false;
       }
@@ -79,7 +90,7 @@ const Login = () => {
             setPassword={setPassword}
             isLoading={isLoading}
             onLogin={onLogin}
-            alert={alert}
+            alertState={alertState}
           />
         </div>
       </div>

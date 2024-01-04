@@ -17,9 +17,13 @@ import ModalLikesAlert from "@/components/Modal/ModalLikesAlert";
 import { Montserrat } from "next/font/google";
 const montserratBold = Montserrat({ subsets: ["latin"], weight: "600" });
 const QuestionId = () => {
+  type AlertType = {
+    message: string;
+    type: "success" | "error";
+  };
   const [isLoading, setLoading] = useState(false);
   const [isLoggedIn, setLoggedIn] = useState(false);
-  const [alert, setAlert] = useState<string>("");
+  const [alertState, setAlertState] = useState<AlertType | null>(null);
   const [answerField, setAnswerField] = useState<string>("");
   const [question, setQuestion] = useState<Array<any> | null>(null);
   const [isModal, setIsModal] = useState(false);
@@ -47,12 +51,15 @@ const QuestionId = () => {
   const inputRegex = /^\S.{5,}/;
   const checkValidation = () => {
     if (!answerField) {
-      setAlert("Please fill comment field");
+      setAlertState({ message: "Please fill comment field", type: "error" });
       return false;
     } else if (!inputRegex.test(answerField)) {
-      setAlert("Please enter atleat 5 letters");
+      setAlertState({
+        message: "Please enter atleat 5 letters",
+        type: "error",
+      });
     } else {
-      setAlert("Comment added");
+      setAlertState({ message: "Answer added", type: "success" });
       return true;
     }
   };
@@ -117,7 +124,7 @@ const QuestionId = () => {
     } catch (err) {
       // @ts-ignore
       if (err.response.status === 401) {
-        setAlert("Bad Authentification");
+        setAlertState({ message: "Bad Authentification", type: "error" });
         return false;
       }
     }
@@ -233,7 +240,12 @@ const QuestionId = () => {
                       text="Post answer"
                       onClick={onAddAnswer}
                     />
-                    <Alerts alert={alert} />
+                    {alertState && (
+                      <Alerts
+                        message={alertState.message}
+                        type={alertState.type}
+                      />
+                    )}
                   </form>
                 )}
 
@@ -299,7 +311,9 @@ const QuestionId = () => {
                         </div>
                         <div className="flex items-center justify-between gap-2">
                           <p className="text-sm text-gray-600 dark:text-gray-600 ">
-                            <span>Created: </span>
+                            <span className={`${montserratBold.className}`}>
+                              Created:{" "}
+                            </span>
                             <time>
                               {
                                 // @ts-ignore

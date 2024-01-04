@@ -2,6 +2,11 @@ import React, { Dispatch, SetStateAction, useState } from "react";
 import Input from "@/components/Input/Input";
 import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
+type AlertType = {
+  message: string;
+  type: "success" | "error";
+};
+
 type RegisterType = {
   email: string | null;
   setEmail: Dispatch<SetStateAction<string | null>>;
@@ -13,7 +18,7 @@ type RegisterType = {
   setPassword: React.Dispatch<React.SetStateAction<string>>;
   isLoading: Boolean;
   onRegister: () => void;
-  alert: string | null;
+  alertState: AlertType | null;
 };
 const RegisterForm: React.FC<RegisterType> = ({
   email,
@@ -26,8 +31,17 @@ const RegisterForm: React.FC<RegisterType> = ({
   setPassword,
   isLoading,
   onRegister,
-  alert,
+  alertState,
 }) => {
+  const convertAlert = (alertString: string | null): AlertType[] => {
+    if (alertString) {
+      return [{ message: alertString, type: "error" }];
+    }
+    return [];
+  };
+
+  convertAlert(alertState?.message || null);
+
   return (
     <>
       <form className="space-y-6">
@@ -83,7 +97,9 @@ const RegisterForm: React.FC<RegisterType> = ({
           className="flex w-full justify-center rounded-md bg-blue-500 px-3 py-1.5 text-sm font-semibold leading-6 text-white shadow-sm hover:bg-blue-700 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-indigo-600"
         />
       </form>
-      <Alerts alert={alert} />
+      {alertState && (
+        <Alerts message={alertState.message} type={alertState.type} />
+      )}
     </>
   );
 };

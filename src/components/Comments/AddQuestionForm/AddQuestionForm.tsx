@@ -3,6 +3,10 @@ import Input from "@/components/Input/Input";
 import Textarea from "@/components/Textarea/Textarea";
 import Button from "@/components/Button/Button";
 import Alerts from "@/components/Alerts/Alerts";
+type AlertType = {
+  message: string;
+  type: "success" | "error";
+};
 type AddQuestionType = {
   titleField: string | null;
   setTitleField: (titleField: string) => void;
@@ -12,7 +16,7 @@ type AddQuestionType = {
   setTagsField: (tagsField: string) => void;
   isLoading: boolean;
   onAddComment: () => void;
-  alert: string;
+  alertState: AlertType | null;
 };
 const Form: React.FC<AddQuestionType> = ({
   titleField,
@@ -23,8 +27,17 @@ const Form: React.FC<AddQuestionType> = ({
   setTagsField,
   isLoading,
   onAddComment,
-  alert,
+  alertState,
 }) => {
+  const convertAlert = (alertString: string | null): AlertType[] => {
+    if (alertString) {
+      return [{ message: alertString, type: "error" }];
+    }
+    return [];
+  };
+
+  convertAlert(alertState?.message || null);
+
   return (
     <form className="mb-6">
       <Input
@@ -64,7 +77,9 @@ const Form: React.FC<AddQuestionType> = ({
         text="Post comment"
         onClick={onAddComment}
       />
-      <Alerts alert={alert} />
+      {alertState && (
+        <Alerts message={alertState.message} type={alertState.type} />
+      )}
     </form>
   );
 };
