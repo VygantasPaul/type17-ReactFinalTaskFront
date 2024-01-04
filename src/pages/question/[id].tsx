@@ -146,7 +146,6 @@ const QuestionId = () => {
       if (response.status === 200) {
         setIsModalLike(true);
         setModalLikesAlert("Thank you for your vote.");
-        router.reload();
       }
     } catch (err) {
       // @ts-ignore
@@ -179,7 +178,6 @@ const QuestionId = () => {
       if (response.status === 200) {
         setIsModalLike(true);
         setModalLikesAlert("Thank you for your vote. ");
-        router.reload();
       }
     } catch (err) {
       // @ts-ignore
@@ -381,6 +379,9 @@ const QuestionId = () => {
                         modalLikesAlert={modalLikesAlert}
                         onCancel={() => {
                           setIsModalLike(false);
+                          setTimeout(() => {
+                            router.reload();
+                          }, 800);
                         }}
                       />
                     )}

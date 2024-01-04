@@ -84,7 +84,6 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
       if (response.status === 200) {
         setIsModalLike(true);
         setModalLikesAlert("Thank you for your vote.");
-        router.reload();
       }
     } catch (err) {
       // @ts-ignore
@@ -117,7 +116,6 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
       if (response.status === 200) {
         setIsModalLike(true);
         setModalLikesAlert("Thank you for your vote. ");
-        router.reload();
       }
     } catch (err) {
       // @ts-ignore
@@ -224,6 +222,9 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
           modalLikesAlert={modalLikesAlert}
           onCancel={() => {
             setIsModalLike(false);
+            setTimeout(() => {
+              router.reload();
+            }, 800);
           }}
         />
       )}
