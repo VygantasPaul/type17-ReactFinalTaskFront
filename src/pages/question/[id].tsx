@@ -51,7 +51,7 @@ const QuestionId = () => {
   const inputRegex = /^\S.{5,}/;
   const checkValidation = () => {
     if (!answerField) {
-      setAlertState({ message: "Please fill comment field", type: "error" });
+      setAlertState({ message: "Please fill answer field", type: "error" });
       return false;
     } else if (!inputRegex.test(answerField)) {
       setAlertState({
