@@ -4,6 +4,8 @@ import VoteBoxAnswers from "@/components/Comments/VotesBox/VoteBoxAnswers";
 import ModalLikesAlert from "@/components/Modal/ModalLikesAlert";
 import cookie from "js-cookie";
 import axios from "axios";
+import { Montserrat } from "next/font/google";
+const montserratBold = Montserrat({ subsets: ["latin"], weight: "600" });
 import { useRouter } from "next/router";
 type AnswerComponent = {
   answer: string;
@@ -96,6 +98,23 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
   }, []);
   return (
     <article className="text-base bg-white rounded-lg ">
+      {
+        // @ts-ignore
+        answer.user_data &&
+          // @ts-ignore
+          answer.user_data.map((user: any) => (
+            <div key={user.id}>
+              <p className="inline-flex items-center mr-3 pt-4 text-sm text-gray-900  font-semibold">
+                <img
+                  className="mr-2 w-6 h-6 rounded-full"
+                  src={user.avatar}
+                  alt={user.name}
+                ></img>
+                {user.name}
+              </p>
+            </div>
+          ))
+      }
       <footer className="flex relative items-center">
         <div className="flex justify-between w-full bg-indigo-100 p-3 items-center">
           <div className="lg:flex items-center gap-1">
@@ -110,27 +129,9 @@ const Answers: React.FC<AnswerComponent> = ({ answer }) => {
                 // @ts-ignore
               />
             )}
-
-            {
-              // @ts-ignore
-              answer.user_data &&
-                // @ts-ignore
-                answer.user_data.map((user: any) => (
-                  <div key={user.id}>
-                    <p className="inline-flex items-center mr-3 pt-4 text-sm text-gray-900  font-semibold">
-                      <img
-                        className="mr-2 w-6 h-6 rounded-full"
-                        src={user.avatar}
-                        alt={user.name}
-                      ></img>
-                      {user.name}
-                    </p>
-                  </div>
-                ))
-            }
           </div>
-          <p className="text-sm text-gray-600 dark:text-gray-400 pb-3 lg:pb-0">
-            <span>Created: </span>
+          <p className="text-sm text-gray-600  pb-3 lg:pb-0 pl-2">
+            <span className={`${montserratBold.className}`}>Created: </span>
             <time>
               {
                 // @ts-ignore

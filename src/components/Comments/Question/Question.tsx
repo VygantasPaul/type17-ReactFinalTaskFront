@@ -33,7 +33,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
 
   return (
     <div className="pt-2">
-      <div className="lg:flex gap-2 p-2">
+      <div className="flex gap-2 p-2">
         <div>
           {comment.user_data &&
             comment.user_data.map((user: any) => (
