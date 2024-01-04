@@ -12,12 +12,17 @@ const Login = () => {
   const [email, setEmail] = useState<string>("");
   const [password, setPassword] = useState<string>("");
   const [isLoading, setLoading] = useState(false);
+  const [alertType, setAlertType] = useState<"success" | "error" | undefined>(
+    undefined
+  );
+
   const onLogin = async () => {
     const checkLogin = () => {
       const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
       if (!email || !password) {
         setAlert("Please fill in all required fields");
+        setAlertType("error");
         return false;
       } else if (!emailRegex.test(email)) {
         setAlert("Wrong email format");
