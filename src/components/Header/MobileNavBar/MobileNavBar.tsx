@@ -22,12 +22,14 @@ const MobileNavBar: React.FC<ShowMobileType> = ({
             </Link>
 
             <Link
+              onClick={onClickHide}
               href="/questions"
               className="text-gray-500 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
             >
               Questions
             </Link>
             <Link
+              onClick={onClickHide}
               href="/answers"
               className="text-gray-500 hover:bg-gray-700 hover:text-white block rounded-md px-3 py-2 text-base font-medium"
             >

@@ -12,7 +12,7 @@ const PageTemplate: React.FC<TemplateType> = ({ children }) => {
     <div className={`flex flex-col h-screen`}>
       <Header />
       <main
-        className={`flex-1 relative px-3 sm:px-4 lg:px-5 ${montserrat.className}`}
+        className={`flex-1 relative p-3 sm:px-4 lg:px-5 ${montserrat.className}`}
       >
         {children}
       </main>
