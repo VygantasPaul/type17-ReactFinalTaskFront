@@ -124,6 +124,7 @@ const QuestionId = () => {
     } catch (err) {
       // @ts-ignore
       if (err.response.status === 401) {
+        router.push("/login");
         setAlertState({ message: "Bad Authentification", type: "error" });
         return false;
       }
