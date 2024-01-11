@@ -33,7 +33,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
 
   return (
     <div className="pt-3">
-      <div className="flex gap-2">
+      <div className="lg:flex gap-2">
         <div>
           {comment.user_data &&
             comment.user_data.map((user: any) => (
@@ -49,7 +49,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
               </div>
             ))}
         </div>
-        <div>
+        <div className="pb-1 lg:pb-0">
           <p>
             Votes:{" "}
             <span className={`${montserratBold.className}`}>
@@ -57,7 +57,7 @@ const Comment: React.FC<CommentType> = ({ comment }) => {
             </span>
           </p>
         </div>
-        <div>
+        <div className="pb-1 lg:pb-0">
           {comment.answers_data && (
             <div className="">
               <p>

@@ -20,7 +20,7 @@ const Question: React.FC<QuestionType> = ({ question }) => {
   const gained_dislikes = question.gained_dislikes_number?.length || 0;
   return (
     <div className="pt-2">
-      <div className="flex gap-2 p-2">
+      <div className="lg:flex gap-2 p-2">
         <div>
           {question.user_data &&
             question.user_data.map((user: any) => (

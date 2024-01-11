@@ -250,7 +250,7 @@ const QuestionId = () => {
 
                 {question ? (
                   <div>
-                    <div className="flex gap-2">
+                    <div className="lg:flex gap-2">
                       {
                         // @ts-ignore
                         question.user_data &&
