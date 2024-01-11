@@ -161,7 +161,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
               </p>
             </div>
           </div>
-          <div className="flex items-center justify-content gap-2">
+          <div className="flex justify-between items-center justify-content gap-2">
             <p className="text-sm text-gray-600 dark:text-gray-600">
               <span className={`${montserratBold.className}`}>Created: </span>
               <time>
@@ -192,7 +192,7 @@ const Answer: React.FC<AnswerType> = ({ answer }) => {
                 </svg>
                 <span className="sr-only">Comment settings</span>
                 {isShowDelete && (
-                  <div className="absolute left-0 lg:right-0 -top-10 lg:-top-10 z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow  ">
+                  <div className="z-10 w-36 absolute right-0 -top-10 lg:-top-10 z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow  ">
                     <ul className="py-1 text-sm text-gray-700 ">
                       <li>
                         <a

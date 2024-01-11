@@ -347,7 +347,7 @@ const QuestionId = () => {
                               </svg>
                               <span className="sr-only">Comment settings</span>
                               {isShowDelete && (
-                                <div className="z-10 w-36 absolute left-0 lg:right-0 -top-10 lg:-top-10 bg-white rounded divide-y divide-gray-100 shadow ">
+                                <div className="z-10 w-36 absolute right-0 -top-10 lg:-top-10 bg-white rounded divide-y divide-gray-100 shadow ">
                                   <ul
                                     className="py-1 text-sm text-gray-700 "
                                     aria-labelledby="dropdownMenuIconHorizontalButton"
