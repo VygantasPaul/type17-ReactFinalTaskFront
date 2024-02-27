@@ -1,6 +1,8 @@
 /* eslint-disable @next/next/no-img-element */
 import React from "react";
 import Link from "next/link";
+import { Montserrat } from "next/font/google";
+const montserratBold = Montserrat({ subsets: ["latin"], weight: "600" });
 interface QuestionType {
   question: any;
 }
@@ -37,12 +39,22 @@ const Question: React.FC<QuestionType> = ({ question }) => {
             ))}
         </div>
         <div>
-          <p>Votes: ({gained_likes + gained_dislikes})</p>
+          <p>
+            Votes:{" "}
+            <span className={`${montserratBold.className}`}>
+              ({gained_likes + gained_dislikes})
+            </span>
+          </p>
         </div>
         <div>
           {question.answers_data && (
             <div className="">
-              <p>Replyed: ({question.answers_data.length}) </p>
+              <p>
+                Replyed:{" "}
+                <span className={`${montserratBold.className}`}>
+                  ({question.answers_data.length})
+                </span>
+              </p>
             </div>
           )}
         </div>
@@ -55,12 +67,17 @@ const Question: React.FC<QuestionType> = ({ question }) => {
           <div className=" w-full bg-indigo-100 hover:bg-indigo-300 p-2 ">
             <div className="px-2 flex justify-between items-center">
               <div className="">
-                <h2>Title: {question.title} </h2>
+                <h2>
+                  <span className={`${montserratBold.className}`}>Title:</span>{" "}
+                  {question.title}{" "}
+                </h2>
               </div>
 
               <div>
                 <p className="text-sm text-gray-600 dark:text-gray-600">
-                  <span>Created: </span>
+                  <span className={`${montserratBold.className}`}>
+                    Created:{" "}
+                  </span>
                   <time>
                     {new Date(question.createdAt).toLocaleString("en-US", {
                       year: "numeric",

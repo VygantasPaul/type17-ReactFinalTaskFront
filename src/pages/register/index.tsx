@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import axios from "axios";
 import AddTemplate from "@/components/PageTemplate/AddTemplate";
 import { useRouter } from "next/router";
-
 import RegisterForm from "@/components/Users/RegisterForm/RegisterForm";
 const Register = () => {
   type AlertType = {
